@@ -1,0 +1,13 @@
+:root {
+    --main-color: rgb(255, 123, 0);
+    --font-color-main: (#4b423c);
+}
+* {
+    margin: 0;
+    font-family: "Roboto Condensed", sans-serif;
+}
+body {
+    padding: 50px 10rem 0 10rem;
+    height: 2000px;
+    min-height: calc(100vh - 40px);
+}
