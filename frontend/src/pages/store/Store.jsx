@@ -1,10 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import ProductList from "../../components/product-list/ProductList";
+import "./Store.scss";
 
 const Store = () => {
     return (
         <div>
-            <Link to="/Home">Home</Link>
+            <div className="store-container">
+                <ProductList />
+            </div>
         </div>
     );
 };

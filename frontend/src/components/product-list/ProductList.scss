@@ -1,0 +1,23 @@
+.product-list-container {
+    display: flex;
+    justify-content: flex-end;
+    .products {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        max-width: 875px;
+        .product-card {
+            padding: 1rem;
+            margin: 0.5rem;
+            background-color: white;
+            position: relative;
+            max-height: 400px;
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1),
+                0 -1px 2px 0 rgba(0, 0, 0, 0.1);
+            .product-image > img {
+                max-width: 25vh;
+            }
+        }
+    }
+}
