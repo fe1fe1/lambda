@@ -1,4 +1,22 @@
+/* store styles */
 .store-container {
+    display: flex;
+    justify-content: center;
     max-width: 1200px;
     margin: auto;
+
+    /* product list style */
+    .product-list-container {
+        display: flex;
+        justify-content: flex-end;
+        .products {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 120vh;
+        }
+    }
+
+    /* sidebar search style */
 }
