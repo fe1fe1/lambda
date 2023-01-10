@@ -2,19 +2,39 @@
 .store-container {
     display: flex;
     justify-content: center;
-    max-width: 1200px;
+    line-height: 1.5;
     margin: auto;
+    margin-top: 1rem;
+    .sidebar-search-container {
+        min-width: 18rem;
+        margin-left: 1rem;
+        .search-select {
+            .custom-select {
+                margin: 1rem 0;
+                label {
+                    p {
+                        color: rgba(70, 70, 70, 0.753);
+                        font-style: italic;
+                        text-decoration: underline;
+                        margin: 5px 0;
+                    }
+                }
+            }
+        }
+    }
 
     /* product list style */
     .product-list-container {
         display: flex;
         justify-content: flex-end;
+        width: 100%;
+        max-width: 60rem;
+        margin-right: 1rem;
         .products {
             display: flex;
             align-items: center;
-            justify-content: center;
             flex-wrap: wrap;
-            max-width: 120vh;
+            width: 100%;
         }
     }
 
