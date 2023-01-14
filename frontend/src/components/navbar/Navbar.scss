@@ -52,5 +52,16 @@
                 }
             }
         }
+        .right {
+            .cart-logo {
+                max-height: 40px;
+                margin-top: 4px;
+                transition: ease-out 0.1s;
+                &:hover {
+                    color: var(--main-color);
+                    cursor: pointer;
+                }
+            }
+        }
     }
 }

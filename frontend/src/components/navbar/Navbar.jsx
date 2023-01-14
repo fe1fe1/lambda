@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 const Navbar = (props) => {
     return (
         <div className="custom-navbar">
@@ -22,7 +24,13 @@ const Navbar = (props) => {
                         <li>ABOUT US</li>
                     </ul>
                 </div>
-                <div className="right"></div>
+                <div className="right">
+                    <FontAwesomeIcon
+                        icon={faCartShopping}
+                        size="2x"
+                        className="cart-logo"
+                    />
+                </div>
             </div>
         </div>
     );

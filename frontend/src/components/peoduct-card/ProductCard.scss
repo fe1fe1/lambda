@@ -9,6 +9,58 @@
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 -1px 2px 0 rgba(0, 0, 0, 0.1);
     transition: ease-out 0.3s;
     align-self: normal;
+
+    .overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transition: ease-out 0.3s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        &:hover {
+            .buy-button {
+                display: block;
+            }
+            .cart-icon-container {
+                display: block;
+            }
+            background-color: var(--main-color);
+            opacity: 0.75;
+        }
+        .buy-button {
+            display: none;
+            padding: 0 0.5rem;
+            font-size: 2rem;
+            font-weight: 900;
+            color: black;
+            background: none;
+            border-style: solid;
+            border-color: black;
+            box-shadow: inset 0 0 0 0 white;
+            transition: ease-out 0.2s;
+            height: fit-content;
+            width: fit-content;
+            &:hover {
+                box-shadow: inset 300px 0px 0px 0px white;
+                border-color: var(--main-color);
+                color: var(--main-color);
+                cursor: pointer;
+            }
+        }
+        .cart-icon-container {
+            display: none;
+            .cart-plus-icon {
+                transition: ease-out 0.2s;
+                color: black;
+                &:hover {
+                    color: white;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
     &:hover {
         box-shadow: 0px 0px 31px 6px rgba(0, 0, 0, 0.43);
         -webkit-box-shadow: 0px 0px 31px 6px rgba(0, 0, 0, 0.43);
