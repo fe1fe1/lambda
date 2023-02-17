@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,10 +8,12 @@ const Navbar = (props) => {
             <div className="custom-container">
                 <div className="left">
                     <div className="custom-logo">
-                        <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Half-Life_lambda_logo.svg/365px-Half-Life_lambda_logo.svg.png"
-                            alt=""
-                        />
+                        <Link to="/">
+                            <img
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Half-Life_lambda_logo.svg/365px-Half-Life_lambda_logo.svg.png"
+                                alt=""
+                            />
+                        </Link>
                     </div>
                     <ul className="nav">
                         <li>
@@ -25,11 +26,18 @@ const Navbar = (props) => {
                     </ul>
                 </div>
                 <div className="right">
-                    <FontAwesomeIcon
-                        icon={faCartShopping}
-                        size="2x"
-                        className="cart-logo"
-                    />
+                    <div className="login-navbar-container">
+                        <Link className="login-button" to="login">
+                            login
+                        </Link>
+                    </div>
+                    <div className="cart">
+                        <FontAwesomeIcon
+                            icon={faCartShopping}
+                            size="2x"
+                            className="cart-logo"
+                        />
+                    </div>
                 </div>
             </div>
         </div>

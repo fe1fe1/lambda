@@ -11,4 +11,48 @@ body {
     padding-top: 50px;
     height: 2000px;
     min-height: calc(100vh - 40px);
+    //----------------------------------------------------------------//
+    // global elements styles
+    .block-container {
+        background-color: #fcfcfc;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+            0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 0.1rem;
+        min-width: 420px;
+    }
+
+    // form styles
+    .user-form {
+        margin: 5rem auto;
+        padding: 2rem;
+    }
+
+    .user-form-element {
+        margin: 2rem;
+    }
+
+    .user-form-button {
+        width: 100%;
+        border-style: none;
+        background-color: rgba(255, 255, 255, 0);
+        border-color: black;
+        border-style: solid;
+        padding: 0.1rem 0;
+        transition: ease-out 0.2s;
+        &:hover {
+            color: white;
+            background-color: var(--main-color);
+            border-color: var(--main-color);
+        }
+    }
+
+    .user-form-input {
+        width: 100%;
+        border: none;
+        outline: none;
+        border-bottom: 1px solid #afafaf;
+        &:focus {
+            border-bottom: 1px solid var(--main-color);
+        }
+    }
 }

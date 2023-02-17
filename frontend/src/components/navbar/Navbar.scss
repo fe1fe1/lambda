@@ -53,9 +53,21 @@
             }
         }
         .right {
+            display: flex;
+            align-items: center;
+            .login-navbar-container {
+                .login-button {
+                    text-decoration: none;
+                    color: var(--font-color-main);
+                    &:hover {
+                        text-decoration-line: underline;
+                    }
+                }
+            }
             .cart-logo {
                 max-height: 40px;
                 margin-top: 4px;
+                margin-left: 1rem;
                 transition: ease-out 0.1s;
                 &:hover {
                     color: var(--main-color);

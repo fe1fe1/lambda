@@ -4,7 +4,7 @@ import "./Carousel.scss";
 
 const HomeCarousel = () => {
     return (
-        <div className="carousel-container mx-auto ">
+        <div className="block-container mx-auto ">
             <Carousel variant="dark" className="w-75 mx-auto">
                 <Carousel.Item className="mt-3">
                     <div className="slide-img-container wii">
