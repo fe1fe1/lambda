@@ -1,15 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createEntityAdapter } from "@reduxjs/toolkit";
+import { apiSlice } from "../api/apiSlice";
 
-export const productSlice = createSlice({
-    name: "products",
-    initialState: [],
-    reducers: {
-        printData: (state) => {
-            console.log(state);
-        },
-    },
+export const extendedApiSlice = apiSlice.injectEndpoints({
+    endpoints: (builder) => ({
+        getProducts: builder.query({
+            query: () => "/products",
+        }),
+    }),
 });
 
-export const { printData } = productSlice.actions;
-
-export default productSlice.reducer;
+export const { useGetProductsQuery } = extendedApiSlice;

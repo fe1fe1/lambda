@@ -1,23 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
+import { useGetProductsQuery } from "../../features/products/productsSlice.js";
 import React, { useState } from "react";
 import ProductCard from "../../components/peoduct-card/ProductCard.jsx";
-import axios from "axios";
 import "./Store.scss";
-import { useEffect } from "react";
 
 const Store = () => {
-    const [products, setProducts] = useState([]);
+    //const [products, setProducts] = useState([]);
     const [filterPlatformValue, setFilterPlatformValue] = useState();
     const [filterTypeValue, setFilterTypeValue] = useState();
 
-    useEffect(() => {
-        axios
-            .get("http://localhost:5000/api/products")
-            .then((response) => {
-                setProducts(response.data);
-            })
-            .catch((err) => console.log(err));
-    }, []);
+    const {
+        data: products,
+        isLoading,
+        isSuccess,
+        isError,
+        error,
+    } = useGetProductsQuery();
 
     const compareFilterValues = (product) => {
         return (
@@ -84,9 +81,13 @@ const Store = () => {
             </div>
             <div className="product-list-container">
                 <div className="products">
-                    {products.filter(compareFilterValues).map((product) => (
-                        <ProductCard product={product} />
-                    ))}
+                    {isSuccess ? (
+                        products
+                            .filter(compareFilterValues)
+                            .map((product) => <ProductCard product={product} />)
+                    ) : (
+                        <p>{error}</p>
+                    )}
                 </div>
             </div>
         </div>
