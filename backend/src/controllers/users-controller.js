@@ -1,6 +1,6 @@
 import { pool } from "../db.js";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import bcrypt, { compare } from "bcrypt";
 
 export const getUsers = async (req, res) => {
     console.log("getting users...");
@@ -57,7 +57,7 @@ export const deleteUser = async (req, res) => {
     }
 };
 
-export const signupUser = async (req, res) => {
+export const registerUser = async (req, res) => {
     console.log("posting user...");
     const { name, email, password } = req.body;
     if (!name || !email || !password)
@@ -89,5 +89,51 @@ export const signupUser = async (req, res) => {
     } catch (error) {
         res.status(404).json({ message: "Something went wrong", error: error });
         console.log(error);
+    }
+};
+
+export const loginUser = async (req, res) => {
+    try {
+        const [userData] = await pool.query(
+            `SELECT * FROM userstesting WHERE user_name = ?`,
+            [req.body.name]
+        );
+
+        const user = userData[0];
+
+        if (!user)
+            return res.status(401).json({ message: "Invalid credentials" });
+
+        const match = await bcrypt.compare(
+            req.body.password,
+            user.user_password
+        );
+
+        if (match) {
+            const token = jwt.sign(
+                {
+                    id: user.id,
+                    name: user.user_name,
+                    email: user.user_email,
+                    isAdmin: user.user_isAdmin,
+                },
+                process.env.JWT_KEY,
+                {
+                    expiresIn: "48h",
+                }
+            );
+
+            res.send({
+                id: user.id,
+                name: user.user_name,
+                email: user.user_email,
+                isAdmin: user.user_isAdmin,
+                token: token,
+            });
+        } else {
+            res.sendStatus(401);
+        }
+    } catch (error) {
+        res.status(404).json({ message: "Something went wrong", error: error });
     }
 };
