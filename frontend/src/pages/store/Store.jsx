@@ -19,7 +19,7 @@ const Store = () => {
     const compareFilterValues = (product) => {
         return (
             (filterPlatformValue
-                ? product.platform === filterPlatformValue
+                ? product.product_platform === filterPlatformValue
                 : true) &&
             (filterTypeValue ? product.product_type === filterTypeValue : true)
         );

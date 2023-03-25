@@ -2,10 +2,12 @@ import { pool } from "../db.js";
 import jwt from "jsonwebtoken";
 import bcrypt, { compare } from "bcrypt";
 
+const usersTable = "userstesting";
+
 export const getUsers = async (req, res) => {
     console.log("getting users...");
     try {
-        const [result] = await pool.query(`SELECT * FROM userstesting`);
+        const [result] = await pool.query(`SELECT * FROM ${usersTable}`);
         console.log(result);
         console.log("success");
         res.send(result);
@@ -22,7 +24,7 @@ export const getUser = async (req, res) => {
     console.log("getting user...");
     try {
         const [result] = await pool.query(
-            `SELECT * FROM userstesting WHERE id = ?`,
+            `SELECT * FROM ${usersTable} WHERE id = ?`,
             [req.params.id]
         );
         if (result.length <= 0) {
@@ -42,7 +44,7 @@ export const deleteUser = async (req, res) => {
     console.log("deleting user...");
     try {
         const [result] = await pool.query(
-            `DELETE FROM userstesting WHERE id = ?`,
+            `DELETE FROM ${usersTable} WHERE id = ?`,
             [req.params.id]
         );
         if (result.affectedRows <= 0) {
@@ -66,7 +68,7 @@ export const registerUser = async (req, res) => {
             .json({ message: "Username, email and password are required" });
 
     const [duplicate] = await pool.query(
-        `SELECT * FROM userstesting WHERE user_name = ? or user_email = ?`,
+        `SELECT * FROM ${usersTable} WHERE user_name = ? or user_email = ?`,
         [name, email]
     );
     console.log(duplicate);
@@ -80,7 +82,7 @@ export const registerUser = async (req, res) => {
         const hashedPwd = await bcrypt.hash(password, 10);
 
         const [result] = await pool.query(
-            `INSERT INTO userstesting (user_name, user_email, user_password) VALUES (?, ?, ?)`,
+            `INSERT INTO ${usersTable} (user_name, user_email, user_password) VALUES (?, ?, ?)`,
             [name, email, hashedPwd]
         );
 
@@ -95,7 +97,7 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
     try {
         const [userData] = await pool.query(
-            `SELECT * FROM userstesting WHERE user_name = ?`,
+            `SELECT * FROM ${usersTable} WHERE user_name = ?`,
             [req.body.name]
         );
 
