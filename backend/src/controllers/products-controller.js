@@ -1,5 +1,5 @@
 import { pool } from "../db.js";
-const productsTable = "productsTesting";
+const productsTable = "products";
 
 export const getProducts = async (req, res) => {
     console.log("get products requested!");
@@ -10,6 +10,6 @@ export const getProducts = async (req, res) => {
         res.send(result);
     } catch (error) {
         res.status(404).json({ message: "Something went wrong" });
-        console.log("error");
+        console.log(error);
     }
 };

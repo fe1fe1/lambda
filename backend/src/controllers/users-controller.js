@@ -2,7 +2,7 @@ import { pool } from "../db.js";
 import jwt from "jsonwebtoken";
 import bcrypt, { compare } from "bcrypt";
 
-const usersTable = "userstesting";
+const usersTable = "users";
 
 export const getUsers = async (req, res) => {
     console.log("getting users...");

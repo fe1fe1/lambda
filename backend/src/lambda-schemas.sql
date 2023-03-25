@@ -7,7 +7,7 @@ CREATE TABLE users (
             user_password VARCHAR(255) NOT NULL,
             user_isAdmin BOOLEAN NOT NULL DEFAULT 0,
             PRIMARY KEY (id)
-)
+);
 
 /* products table */
 CREATE TABLE products (
@@ -17,4 +17,4 @@ CREATE TABLE products (
             product_type VARCHAR(64) NOT NULL,
             product_img VARCHAR(255) NOT NULL,
             PRIMARY KEY (id)
-)
+);
