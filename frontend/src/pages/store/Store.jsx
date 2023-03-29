@@ -86,8 +86,14 @@ const Store = () => {
                             .filter(compareFilterValues)
                             .map((product) => <ProductCard product={product} />)
                     ) : (
-                        <p>{error}</p>
-                    )}
+                        isError?(
+                            <div>
+                                <p>Message: {error.message}</p>
+                                <p>{error.stack}</p>
+                            {console.log(error)}
+                            </div>
+                        ):(<p>something went wrong</p>
+                    ))}
                 </div>
             </div>
         </div>
