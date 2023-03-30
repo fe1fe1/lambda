@@ -61,15 +61,15 @@ export const deleteUser = async (req, res) => {
 
 export const registerUser = async (req, res) => {
     console.log("posting user...");
-    const { name, email, password } = req.body;
-    if (!name || !email || !password)
+    const { username, email, password } = req.body;
+    if (!username || !email || !password)
         return res
             .status(409)
             .json({ message: "Username, email and password are required" });
 
     const [duplicate] = await pool.query(
         `SELECT * FROM ${usersTable} WHERE user_name = ? or user_email = ?`,
-        [name, email]
+        [username, email]
     );
     console.log(duplicate);
 
@@ -83,11 +83,12 @@ export const registerUser = async (req, res) => {
 
         const [result] = await pool.query(
             `INSERT INTO ${usersTable} (user_name, user_email, user_password) VALUES (?, ?, ?)`,
-            [name, email, hashedPwd]
+            [username, email, hashedPwd]
         );
 
         console.log("success");
-        res.json({ id: result.insertId, name, email, password });
+        console.log(result);
+        res.json({ id: result.insertId, username, email, password});
     } catch (error) {
         res.status(404).json({ message: "Something went wrong", error: error });
         console.log(error);
@@ -97,10 +98,11 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
     try {
         const [userData] = await pool.query(
-            `SELECT * FROM ${usersTable} WHERE user_name = ?`,
-            [req.body.name]
+            `SELECT * FROM ${usersTable} WHERE user_email = ?`,
+            [req.body.email]
         );
-
+        console.log(req.body);
+        console.log(userData);
         const user = userData[0];
 
         if (!user)
@@ -115,7 +117,7 @@ export const loginUser = async (req, res) => {
             const token = jwt.sign(
                 {
                     id: user.id,
-                    name: user.user_name,
+                    username: user.user_name,
                     email: user.user_email,
                     isAdmin: user.user_isAdmin,
                 },
@@ -127,13 +129,13 @@ export const loginUser = async (req, res) => {
 
             res.send({
                 id: user.id,
-                name: user.user_name,
+                username: user.user_name,
                 email: user.user_email,
                 isAdmin: user.user_isAdmin,
                 token: token,
             });
         } else {
-            res.sendStatus(401);
+            res.status(401).json({ message: "Unauthorized" });
         }
     } catch (error) {
         res.status(404).json({ message: "Something went wrong", error: error });
