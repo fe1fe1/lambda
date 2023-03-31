@@ -2,7 +2,19 @@ import { Link } from "react-router-dom";
 import "./Navbar.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut, selectCurrentToken, selectCurrentUsername } from "../../features/user/userSlice";
 const Navbar = (props) => {
+
+    const username = useSelector(selectCurrentUsername)
+    const token = useSelector(selectCurrentToken)
+    const dispatch = useDispatch();
+
+    const handleLogut = () => {
+        dispatch(logOut());
+    }
+
     return (
         <div className="custom-navbar">
             <div className="custom-container">
@@ -26,10 +38,20 @@ const Navbar = (props) => {
                     </ul>
                 </div>
                 <div className="right">
-                    <div className="login-navbar-container">
-                        <Link className="login-button" to="login">
-                            login
-                        </Link>
+                    <div className="profile-container">
+                        {token ? (
+                            <div className="user-profile">
+                                <span className="profile-navbar-username">{username}</span>
+                                <button className="logout-button" onClick={handleLogut}>logout</button>
+                            </div>
+
+                        ):(
+                            <div className="login-navbar-container">
+                                <Link className="login-button" to="login">
+                                    login
+                                </Link>
+                            </div>
+                        )}
                     </div>
                     <div className="cart">
                         <FontAwesomeIcon

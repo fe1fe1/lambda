@@ -55,12 +55,32 @@
         .right {
             display: flex;
             align-items: center;
-            .login-navbar-container {
-                .login-button {
-                    text-decoration: none;
-                    color: var(--font-color-main);
-                    &:hover {
-                        text-decoration-line: underline;
+            .profile-container{
+                .user-profile{
+                    display: flex;
+                    align-items: center;
+                    .profile-navbar-username{
+                        font-weight: bold;
+                    }
+                    .logout-button {
+                        background: none;
+                        text-decoration: none;
+                        padding: 0;
+                        margin-left: 10px;
+                        border: none;
+                        color: var(--font-color-main);
+                        &:hover {
+                            text-decoration-line: underline;
+                        }
+                    }
+                }
+                .login-navbar-container {
+                    .login-button {
+                        text-decoration: none;
+                        color: var(--font-color-main);
+                        &:hover {
+                            text-decoration-line: underline;
+                        }
                     }
                 }
             }
