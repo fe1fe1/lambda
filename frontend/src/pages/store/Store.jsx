@@ -1,4 +1,4 @@
-import { useGetProductsQuery } from "../../features/products/productsSlice.js";
+import { useGetProductsQuery } from "../../features/products/productsApiSlice.js";
 import React, { useState } from "react";
 import ProductCard from "../../components/peoduct-card/ProductCard.jsx";
 import "./Store.scss";

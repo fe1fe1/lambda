@@ -32,11 +32,14 @@
                     a {
                         text-decoration: none;
                         color: var(--font-color-main);
+                        min-width: 100%;
+                        &:hover{
+                            cursor: pointer;
+                        }
                     }
-                    &:hover {
+                    &:hover{
                         box-shadow: inset 0 0px 0px 100px var(--main-color);
                         color: white;
-                        cursor: pointer;
                     }
                 }
             }
@@ -57,22 +60,51 @@
             align-items: center;
             .profile-container{
                 .user-profile{
-                    display: flex;
+                    position: relative;
+                    display: inline-block;
                     align-items: center;
                     .profile-navbar-username{
                         font-weight: bold;
+                        padding: 0 5px;
+                        border-style: solid;
+                        border-width: 2px;
+                        border-color: transparent;
                     }
-                    .logout-button {
-                        background: none;
-                        text-decoration: none;
-                        padding: 0;
-                        margin-left: 10px;
-                        border: none;
-                        color: var(--font-color-main);
-                        &:hover {
-                            text-decoration-line: underline;
+                    .user-profile-dropdown{
+                        display: none;
+                        position: absolute;
+                        min-width: 100%;
+                        background-color: white;
+                        button, span{
+                            font-size: 1.5rem;
+                            display: block;
+                            color: var(--font-color-main);
+                            background: none;
+                            text-decoration: none;
+                            border: none;
+                            padding: 0 10px;
+                        }
+                        .logout-button {
+                            &:hover {
+                                text-decoration-line: underline;
+                            }
                         }
                     }
+                    &:hover{
+                        .user-profile-dropdown, .profile-navbar-username{
+                            border-style: solid;
+                            border-width: 2px;
+                            border-color: var(--font-color-main);
+                        }
+                        .user-profile-dropdown{
+                            display: block; 
+                        }
+                        .profile-navbar-username{
+                            min-height: 100%;
+                            padding-bottom: 6px;
+                        }
+                    }
+
                 }
                 .login-navbar-container {
                     .login-button {
@@ -89,6 +121,7 @@
                 margin-top: 4px;
                 margin-left: 1rem;
                 transition: ease-out 0.1s;
+                color: black;
                 &:hover {
                     color: var(--main-color);
                     cursor: pointer;

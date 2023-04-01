@@ -42,7 +42,10 @@ const Navbar = (props) => {
                         {token ? (
                             <div className="user-profile">
                                 <span className="profile-navbar-username">{username}</span>
-                                <button className="logout-button" onClick={handleLogut}>logout</button>
+                                <div className="user-profile-dropdown">
+                                    <span>settings</span>
+                                    <button className="logout-button" onClick={handleLogut}>logout</button>
+                                </div>
                             </div>
 
                         ):(
@@ -54,11 +57,13 @@ const Navbar = (props) => {
                         )}
                     </div>
                     <div className="cart">
-                        <FontAwesomeIcon
-                            icon={faCartShopping}
-                            size="2x"
-                            className="cart-logo"
-                        />
+                        <Link to="/cart">
+                            <FontAwesomeIcon
+                                icon={faCartShopping}
+                                size="2x"
+                                className="cart-logo"
+                            />
+                        </Link>
                     </div>
                 </div>
             </div>
