@@ -3,7 +3,16 @@ import React, { useState } from "react";
 const Cart = () => {
     return (
         <div>
-           <h1>Cart page</h1> 
+            <div className="block-container">
+                <div className="cart-items-container">
+                   <div className="items-list">
+                    
+                   </div> 
+                    <div className="total-price">
+                        
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
