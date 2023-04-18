@@ -1,16 +1,27 @@
 import React, { useState } from "react";
+import "./Cart.scss"
 import { useSelector } from "react-redux";
-import { selectCartItems } from "../../features/cart/cartSlice.js";
+import { addItem, removeItem, selectCartItems } from "../../features/cart/cartSlice.js";
+
+import { useDispatch } from "react-redux";
 
 const Cart = () => {
+    const dispatch = useDispatch();
 
     const items = useSelector(selectCartItems);
 
+    const handleDeleteFromCart = (itemId) => {
+       dispatch(removeItem(itemId)) 
+    }
+
+    const handleQuantityOnChange = (e, item) => {
+        dispatch(addItem({...item, quantity: e.target.value})) 
+    }
+
     return (
-        <div>
+        <div className="cart-container">
             <div className="block-container">
-                <div className="cart-container">
-                    <ul className="cart-item-list">
+                    <ul className="cart-items-list">
                         <li>
                             <h3>
                                 Shopping Cart
@@ -32,25 +43,23 @@ const Cart = () => {
                                       {item.product_name}
                                   </div>
                                   <div>
-                                    Qty:
-                                  <select value={item.qty} onChange={(e) => console.log(e.target.value)}>
+                                  <select value={item.quantity} onChange={e => handleQuantityOnChange(e,item)}>
                                       {[...Array(item.product_stock).keys()].map(x =>
                                         <option key={x + 1} value={x + 1}>{x + 1}</option>
                                       )}
                                     </select>
-                                    <button type="button" className="button" onClick={() => console.log('delete button')} >
+                                    <button type="button" className="delete-item-button" onClick={() => handleDeleteFromCart(item.id)} >
                                       Delete
                                     </button>
                                   </div>
                                 </div>
                                 <div className="cart-price">
-                                  ${item.price}
+                                  ${item.product_price}
                                 </div>
                               </li>
                             )
                         }
                     </ul>
-                </div>
             </div>
         </div>
     )

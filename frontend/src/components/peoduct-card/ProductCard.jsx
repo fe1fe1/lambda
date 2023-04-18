@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ProductCard.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
+import { addItem } from "../../features/cart/cartSlice";
+
 const ProductCard = (props) => {
+    const [quantity, setQuantity ] = useState(1);
+    const dispatch = useDispatch();
+
+    const handleAddToCart = () => {
+        dispatch(addItem({...props.product, quantity})) 
+    }
+
     return (
         <div>
             <div className="product-card">
@@ -16,7 +26,7 @@ const ProductCard = (props) => {
 
                 <div className="overlay">
                     <button className="buy-button">BUY</button>
-                    <div className="cart-icon-container">
+                    <div className="cart-icon-container" onClick={handleAddToCart}>
                         <FontAwesomeIcon
                             icon={faCartPlus}
                             size="3x"
@@ -29,7 +39,7 @@ const ProductCard = (props) => {
                     <h3>{props.product.product_name}</h3>
                     <div className="sub-info">
                         <div className="price">
-                            <span>$500</span>
+                            <span>${props.product.product_price}</span>
                         </div>
                     </div>
                 </div>
