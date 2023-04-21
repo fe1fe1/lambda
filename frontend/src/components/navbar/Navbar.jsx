@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import "./Navbar.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, selectCurrentToken, selectCurrentUsername } from "../../features/user/userSlice";
+import { emptyCart } from "../../features/cart/cartSlice";
 const Navbar = (props) => {
 
     const username = useSelector(selectCurrentUsername)
@@ -13,6 +13,7 @@ const Navbar = (props) => {
 
     const handleLogut = () => {
         dispatch(logOut());
+        dispatch(emptyCart())
     }
 
     return (

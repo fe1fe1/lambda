@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate} from "react-router-dom";
 import "./Login.scss";
 
-import { useDispatch } from "react-redux"
-import { setCredentials } from "../../features/user/userSlice.js"
+import { useDispatch, useSelector } from "react-redux"
+import { selectCurrentToken, setCredentials } from "../../features/user/userSlice.js"
 import { useLoginMutation } from "../../features/user/userApiSlice.js"
 
 const Login = () => {
@@ -13,6 +13,7 @@ const Login = () => {
     const navigate = useNavigate();
 
     const [login, { isLoading }] = useLoginMutation();
+    const token = useSelector(selectCurrentToken);
     const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
@@ -38,6 +39,9 @@ const Login = () => {
             }
         }
     }
+
+    if (token)
+        navigate("/")
 
     return (
         <div className="login-container">

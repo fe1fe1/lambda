@@ -6,22 +6,27 @@ import Store from "./pages/store/Store";
 import Cart from "./pages/cart/Cart";
 import Login from "./pages/login/Login";
 import Signup from "./pages/signup/Signup";
+import AppLayout from "./layouts/AppLayout";
+import RequireAuth from "./layouts/RequireAuth";
 
 const App = () => {
     return (
         <div className="App">
-            <div className="container">
-                <Navbar />
-            </div>
-            <>
-                <Routes>
+            <Routes>
+                {/* public routes */}
+                <Route path="/" element={<AppLayout />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/store" element={<Store />} />
-                    <Route path="/cart" element={<Cart />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
-                </Routes>
-            </>
+                </Route>
+
+                {/* auth protected routes*/}
+                <Route element={<RequireAuth />}>
+                    <Route path="/cart" element={<Cart />} />
+                </Route>
+            </Routes>
+
         </div>
     );
 };

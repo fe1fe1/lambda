@@ -60,6 +60,17 @@ const Cart = () => {
                             )
                         }
                     </ul>
+                        <div className="cart-subtotal">
+                          <h3>
+                            Subtotal ( {items.reduce((a, c) => a + c.quantity, 0)} items)
+                            :
+                             $ {items.reduce((a, c) => a + c.product_price * c.quantity, 0)}
+                          </h3>
+                          <button  className="button primary full-width" disabled={items.length === 0}>
+                            Proceed to Checkout
+                          </button>
+
+                        </div>
             </div>
         </div>
     )
