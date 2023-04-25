@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Cart.scss"
 import { useSelector } from "react-redux";
-import { addItem, removeItem, selectCartItems } from "../../features/cart/cartSlice.js";
+import { addItem, emptyCart, removeItem, selectCartItems } from "../../features/cart/cartSlice.js";
 
 import { useDispatch } from "react-redux";
 
@@ -12,6 +12,10 @@ const Cart = () => {
 
     const handleDeleteFromCart = (itemId) => {
        dispatch(removeItem(itemId)) 
+    }
+
+    const handleDeleteAll = () => {
+        dispatch(emptyCart()) 
     }
 
     const handleQuantityOnChange = (e, item) => {
@@ -33,13 +37,13 @@ const Cart = () => {
                               Cart is empty
                           </div>
                             :
-                            items.map(item =>
+                            (<>{items.map(item =>
                               <li>
-                                <div className="cart-image">
+                                <div className="cart-item-image">
                                   <img src={item.product_img} alt="product" />
                                 </div>
-                                <div className="cart-name">
-                                  <div>
+                                <div className="cart-item-options">
+                                  <div className="cart-item-name">
                                       {item.product_name}
                                   </div>
                                   <div>
@@ -57,7 +61,11 @@ const Cart = () => {
                                   ${item.product_price}
                                 </div>
                               </li>
-                            )
+                            )}
+                                <button type="button" className="delete-item-button" onClick={() => handleDeleteAll()} >
+                                  Delete All
+                                </button>
+                            </>)
                         }
                     </ul>
                         <div className="cart-subtotal">
@@ -66,9 +74,11 @@ const Cart = () => {
                             :
                              $ {items.reduce((a, c) => a + c.product_price * c.quantity, 0)}
                           </h3>
-                          <button  className="button primary full-width" disabled={items.length === 0}>
+                            {items.length > 0 ? (
+                          <button  className="checkout-button" disabled={items.length === 0}>
                             Proceed to Checkout
                           </button>
+                            ):(<></>)}
 
                         </div>
             </div>
