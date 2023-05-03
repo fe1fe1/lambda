@@ -19,8 +19,8 @@ const ProductCard = (props) => {
                 <div className="product-image">
                     <img
                         className="product-card-img"
-                        src={props.product.product_img}
-                        alt={props.product.product_name}
+                        src={props.product.img}
+                        alt={props.product.name}
                     />
                 </div>
 
@@ -36,10 +36,10 @@ const ProductCard = (props) => {
                 </div>
 
                 <div className="product-card-info">
-                    <h3>{props.product.product_name}</h3>
+                    <h3>{props.product.name}</h3>
                     <div className="sub-info">
                         <div className="price">
-                            <span>${props.product.product_price}</span>
+                            <span>${props.product.price}</span>
                         </div>
                     </div>
                 </div>

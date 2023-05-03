@@ -68,7 +68,7 @@ export const registerUser = async (req, res) => {
             .json({ message: "Username, email and password are required" });
 
     const [duplicate] = await pool.query(
-        `SELECT * FROM ${usersTable} WHERE user_name = ? or user_email = ?`,
+        `SELECT * FROM ${usersTable} WHERE name = ? or email = ?`,
         [username, email]
     );
     console.log(duplicate);
@@ -82,7 +82,7 @@ export const registerUser = async (req, res) => {
         const hashedPwd = await bcrypt.hash(password, 10);
 
         const [result] = await pool.query(
-            `INSERT INTO ${usersTable} (user_name, user_email, user_password) VALUES (?, ?, ?)`,
+            `INSERT INTO ${usersTable} (name, email, password) VALUES (?, ?, ?)`,
             [username, email, hashedPwd]
         );
 
@@ -98,7 +98,7 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
     try {
         const [userData] = await pool.query(
-            `SELECT * FROM ${usersTable} WHERE user_email = ?`,
+            `SELECT * FROM ${usersTable} WHERE email = ?`,
             [req.body.email]
         );
         console.log(req.body);
@@ -110,16 +110,16 @@ export const loginUser = async (req, res) => {
 
         const match = await bcrypt.compare(
             req.body.password,
-            user.user_password
+            user.password
         );
 
         if (match) {
             const token = jwt.sign(
                 {
                     id: user.id,
-                    username: user.user_name,
-                    email: user.user_email,
-                    isAdmin: user.user_isAdmin,
+                    username: user.name,
+                    email: user.email,
+                    isAdmin: user.is_admin,
                 },
                 process.env.JWT_KEY,
                 {
@@ -129,9 +129,9 @@ export const loginUser = async (req, res) => {
 
             res.send({
                 id: user.id,
-                username: user.user_name,
-                email: user.user_email,
-                isAdmin: user.user_isAdmin,
+                username: user.name,
+                email: user.email,
+                isAdmin: user.is_admin,
                 token: token,
             });
         } else {

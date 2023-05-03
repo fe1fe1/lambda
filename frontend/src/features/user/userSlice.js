@@ -6,7 +6,7 @@ const initialState = {
     username: storage?.username ? storage.username : null,
     email: storage?.email ? storage.email : null,
     token: storage?.token ? storage.token : null,
-    isAdmin: storage?.isAdmin ? storage.isAdmin : false,
+    is_admin: storage?.is_admin ? storage.is_admin : false,
 }
 
 const userSlice = createSlice({
@@ -18,14 +18,14 @@ const userSlice = createSlice({
             state.username = data.username;
             state.email = data.email;
             state.token = data.token;
-            state.isAdmin = data.isAdmin;
+            state.is_admin = data.is_admin;
             localStorage.setItem('userData', JSON.stringify(data))
         },
         logOut: (state, action) => {
             state.username = null;
             state.email = null;
             state.token = null;
-            state.isAdmin = false;
+            state.is_admin = false;
             localStorage.setItem('userData', null)
         }
     },
@@ -38,4 +38,4 @@ export default userSlice.reducer;
 export const selectCurrentUsername = (state) => state.user.username;
 export const selectCurrentEmail = (state) => state.user.email;
 export const selectCurrentToken = (state) => state.user.token;
-export const selectCurrentIsAdmin = (state) => state.user.isAdmin;
+export const selectCurrentIsAdmin = (state) => state.user.is_admin;
