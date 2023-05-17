@@ -40,15 +40,15 @@ const Cart = () => {
                             (<>{items.map(item =>
                               <li>
                                 <div className="cart-item-image">
-                                  <img src={item.product_img} alt="product" />
+                                  <img src={item.img} alt="product" />
                                 </div>
                                 <div className="cart-item-options">
                                   <div className="cart-item-name">
-                                      {item.product_name}
+                                      {item.name}
                                   </div>
                                   <div>
                                   <select value={item.quantity} onChange={e => handleQuantityOnChange(e,item)}>
-                                      {[...Array(item.product_stock).keys()].map(x =>
+                                      {[...Array(item.stock).keys()].map(x =>
                                         <option key={x + 1} value={x + 1}>{x + 1}</option>
                                       )}
                                     </select>
@@ -58,7 +58,7 @@ const Cart = () => {
                                   </div>
                                 </div>
                                 <div className="cart-price">
-                                  ${item.product_price}
+                                  ${item.price}
                                 </div>
                               </li>
                             )}
@@ -72,7 +72,7 @@ const Cart = () => {
                           <h3>
                             Subtotal ( {items.reduce((a, c) => a + c.quantity, 0)} items)
                             :
-                             $ {items.reduce((a, c) => a + c.product_price * c.quantity, 0)}
+                             $ {items.reduce((a, c) => a + c.price * c.quantity, 0)}
                           </h3>
                             {items.length > 0 ? (
                           <button  className="checkout-button" disabled={items.length === 0}>

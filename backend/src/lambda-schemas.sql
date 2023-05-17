@@ -1,15 +1,15 @@
 /* users */
-CREATE TABLE users (
+CREATE TABLE user (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    isAdmin BOOLEAN NOT NULL DEFAULT 0,
+    isAadmin BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
 /* products */
-CREATE TABLE products (
+CREATE TABLE product (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     platform VARCHAR(64) NOT NULL,
@@ -20,16 +20,82 @@ CREATE TABLE products (
     PRIMARY KEY (id)
 );
 
-/* order item */
-CREATE TABLE order_item (
+/* payment */
+CREATE TABLE payment (
     id BIGINT NOT NULL AUTO_INCREMENT,
-    order_id BIGINT NOT NULL,
-    product_id BIGINT NOT NULL,
-    qty BIGINT NOT NULL,
+    userId INT NOT NULL,
+    method VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_user
+        FOREIGN KEY (userId) 
+        REFERENCES user(id)
+        ON DELETE SET NULL
+        ON UPDATE SET NULL,
+);
+
+/* shipping */
+CREATE TABLE shipping (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    userId INT NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    postal_code VARCHAR(255) NOT NULL,
+    country VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_user
+        FOREIGN KEY (userId) 
+        REFERENCES user(id)
+        ON DELETE SET NULL
+        ON UPDATE SET NULL,
 );
 
 /* order */
-CREATE TABLE oder (
+CREATE TABLE purchase_order (
     id BIGINT NOT NULL AUTO_INCREMENT,
-    user_id INT NOT NULL,
+    userId INT NOT NULL,
+    shippingId BIGINT NOT NULL,
+    paymentId BIGINT NOT NULL,
+    itemsPrice FLOAT NOT NULL,
+    shippingPrice FLOAT NOT NULL,
+    totalPrice FLOAT NOT NULL,
+    isPaid BOOLEAN NOT NULL DEFAULT 0,
+    paidAt DATETIME NOT NULL, 
+    isDelivered BOOLEAN NOT NULL DEFAULT 0,
+    deliveredAt DATETIME NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_user
+        FOREIGN KEY (userId) 
+        REFERENCES user(id)
+        ON DELETE SET NULL
+        ON UPDATE SET NULL,
+    CONSTRAINT fk_shipping
+        FOREIGN KEY (shippingId)
+        REFERENCES shipping(id)
+        ON DELETE SET NULL
+        ON UPDATE SET NULL,
+    CONSTRAINT fk_payment
+        FOREIGN KEY (paymentId)
+        REFERENCES payment(id)
+        ON DELETE SET NULL
+        ON UPDATE SET NULL,
 );
+
+/* order item */
+CREATE TABLE order_item (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    orderId BIGINT NOT NULL,
+    productId BIGINT NOT NULL,
+    qty BIGINT NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_order
+        FOREIGN KEY (orderId) 
+        REFERENCES purchase_order(id)
+        ON DELETE SET NULL
+        ON UPDATE SET NULL,
+    CONSTRAINT fk_product
+        FOREIGN KEY (productId) 
+        REFERENCES product(id)
+        ON DELETE SET NULL
+        ON UPDATE SET NULL,
+);
+
