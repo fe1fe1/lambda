@@ -6,7 +6,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
             query: () => "/products",
         }),
         getProduct: builder.query({
-            query: (productId) => `/products/${productId}`,
+            query: (productId) => `/product/${productId}`,
         }),
     }),
 });

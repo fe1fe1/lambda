@@ -23,38 +23,38 @@ CREATE TABLE product (
 /* payment */
 CREATE TABLE payment (
     id BIGINT NOT NULL AUTO_INCREMENT,
-    userId INT NOT NULL,
+    userId INT,
     method VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_user
+    CONSTRAINT fk_user_payment
         FOREIGN KEY (userId) 
         REFERENCES user(id)
         ON DELETE SET NULL
-        ON UPDATE SET NULL,
+        ON UPDATE SET NULL
 );
 
 /* shipping */
 CREATE TABLE shipping (
     id BIGINT NOT NULL AUTO_INCREMENT,
-    userId INT NOT NULL,
+    userId INT,
     address VARCHAR(255) NOT NULL,
     city VARCHAR(255) NOT NULL,
     postal_code VARCHAR(255) NOT NULL,
     country VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_user
+    CONSTRAINT fk_user_shipping
         FOREIGN KEY (userId) 
         REFERENCES user(id)
         ON DELETE SET NULL
-        ON UPDATE SET NULL,
+        ON UPDATE SET NULL
 );
 
 /* order */
 CREATE TABLE purchase_order (
     id BIGINT NOT NULL AUTO_INCREMENT,
-    userId INT NOT NULL,
-    shippingId BIGINT NOT NULL,
-    paymentId BIGINT NOT NULL,
+    userId INT,
+    shippingId BIGINT,
+    paymentId BIGINT,
     itemsPrice FLOAT NOT NULL,
     shippingPrice FLOAT NOT NULL,
     totalPrice FLOAT NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE purchase_order (
     isDelivered BOOLEAN NOT NULL DEFAULT 0,
     deliveredAt DATETIME NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_user
+    CONSTRAINT fk_user_order
         FOREIGN KEY (userId) 
         REFERENCES user(id)
         ON DELETE SET NULL
@@ -77,14 +77,14 @@ CREATE TABLE purchase_order (
         FOREIGN KEY (paymentId)
         REFERENCES payment(id)
         ON DELETE SET NULL
-        ON UPDATE SET NULL,
+        ON UPDATE SET NULL
 );
 
 /* order item */
 CREATE TABLE order_item (
     id BIGINT NOT NULL AUTO_INCREMENT,
-    orderId BIGINT NOT NULL,
-    productId BIGINT NOT NULL,
+    orderId BIGINT,
+    productId INT,
     qty BIGINT NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_order
@@ -92,10 +92,10 @@ CREATE TABLE order_item (
         REFERENCES purchase_order(id)
         ON DELETE SET NULL
         ON UPDATE SET NULL,
-    CONSTRAINT fk_product
+    CONSTRAINT fk_order_item_product
         FOREIGN KEY (productId) 
         REFERENCES product(id)
         ON DELETE SET NULL
-        ON UPDATE SET NULL,
+        ON UPDATE SET NULL
 );
 

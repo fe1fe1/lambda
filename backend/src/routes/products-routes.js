@@ -1,10 +1,10 @@
 import { Router } from "express";
 
-import { getProducts, getProduct } from "../controllers/products-controller.js";
+import { getAllResources, getResourceById } from "../utils.js";
 
 const router = Router();
 
-router.get("/products", getProducts);
-router.get("/products/:id", getProduct);
+router.get("/products", getAllResources("product"));
+router.get("/product/:id", getResourceById("product"));
 
 export default router;
