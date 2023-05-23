@@ -23,10 +23,10 @@ router.post("/user", registerUser);
 router.post("/user/login", loginUser);
 
 //--payment--
-router.get("/user/:id/payment", getUserPayment);
-router.post("/user/:id/payment", postUserPayment);
-router.patch("/user/:id/payment", updateUserPayment);
-router.delete("/user/:id/payment", deleteUserPayment);
+router.get("/user/:userId/payment", getUserPayment);
+router.post("/user/:userId/payment", postUserPayment);
+router.patch("/user/:userId/payment", updateUserPayment);
+router.delete("/user/:userId/payment", deleteUserPayment);
 
 
 export default router;

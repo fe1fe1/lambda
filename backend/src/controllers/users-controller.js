@@ -10,7 +10,7 @@ export const registerUser = async (req, res) => {
     if (!username || !email || !password)
         return res
             .status(409)
-            .json({ message: "Username, email and password are required" });
+            .json({ message: "Username, email and password fields are required" });
 
     const [duplicate] = await pool.query(
         `SELECT * FROM ${usersTable} WHERE name = ? or email = ?`,
