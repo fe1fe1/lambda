@@ -4,8 +4,10 @@ CREATE TABLE user (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    isAadmin BOOLEAN NOT NULL DEFAULT 0,
-    PRIMARY KEY (id)
+    is_admin BOOLEAN NOT NULL DEFAULT 0,
+    PRIMARY KEY (id),
+    CONSTRAINT unique_email
+    UNIQUE (email)
 );
 
 /* products */
