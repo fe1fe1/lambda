@@ -28,12 +28,12 @@ CREATE TABLE payment (
     userId INT,
     method VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_user_payment
+    CONSTRAINT fk_payment_user
         FOREIGN KEY (userId) 
         REFERENCES user(id)
-        ON DELETE SET NULL
-        ON UPDATE SET NULL
-);
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+    CONSTRAINT UNIQUE(userId));
 
 /* shipping */
 CREATE TABLE shipping (
@@ -44,11 +44,12 @@ CREATE TABLE shipping (
     postal_code VARCHAR(255) NOT NULL,
     country VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_user_shipping
+    CONSTRAINT fk_shipping_user
         FOREIGN KEY (userId) 
         REFERENCES user(id)
-        ON DELETE SET NULL
-        ON UPDATE SET NULL
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT UNIQUE(userId)
 );
 
 /* order */
@@ -65,17 +66,17 @@ CREATE TABLE purchase_order (
     isDelivered BOOLEAN NOT NULL DEFAULT 0,
     deliveredAt DATETIME NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_user_order
+    CONSTRAINT fk_purchaseOrder_user
         FOREIGN KEY (userId) 
         REFERENCES user(id)
-        ON DELETE SET NULL
-        ON UPDATE SET NULL,
-    CONSTRAINT fk_shipping
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_purchaseOrder_shipping
         FOREIGN KEY (shippingId)
         REFERENCES shipping(id)
         ON DELETE SET NULL
         ON UPDATE SET NULL,
-    CONSTRAINT fk_payment
+    CONSTRAINT fk_purchaseOrder_payment
         FOREIGN KEY (paymentId)
         REFERENCES payment(id)
         ON DELETE SET NULL
@@ -89,15 +90,15 @@ CREATE TABLE order_item (
     productId INT,
     qty BIGINT NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_order
+    CONSTRAINT fk_orderItem_order
         FOREIGN KEY (orderId) 
         REFERENCES purchase_order(id)
-        ON DELETE SET NULL
-        ON UPDATE SET NULL,
-    CONSTRAINT fk_order_item_product
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_orderItem_product
         FOREIGN KEY (productId) 
         REFERENCES product(id)
-        ON DELETE SET NULL
-        ON UPDATE SET NULL
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
