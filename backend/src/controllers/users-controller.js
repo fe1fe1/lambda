@@ -1,6 +1,5 @@
 import { pool } from "../db.js";
-import jwt from "jsonwebtoken";
-import bcrypt, { compare } from "bcrypt";
+import { createUserToken, hash, match } from "../utils.js";
 
 const usersTable = "user";
 
@@ -24,7 +23,7 @@ export const registerUser = async (req, res) => {
             .json({ message: "Duplicate username and/or email" });
 
     try {
-        const hashedPwd = await bcrypt.hash(password, 10);
+        const hashedPwd = await hash(password);
 
         const [result] = await pool.query(
             `INSERT INTO ${usersTable} (name, email, password) VALUES (?, ?, ?)`,
@@ -33,7 +32,7 @@ export const registerUser = async (req, res) => {
 
         console.log("success");
         console.log(result);
-        res.json({ id: result.insertId, username, email, password });
+        res.json({ id: result.insertId, username, email });
     } catch (error) {
         res.status(404).json({ message: "Something went wrong", error: error });
         console.log(error);
@@ -53,36 +52,25 @@ export const loginUser = async (req, res) => {
         if (!user)
             return res.status(401).json({ message: "Invalid credentials" });
 
-        const match = await bcrypt.compare(
+        const matched = await match(
             req.body.password,
             user.password
         );
 
-        if (match) {
-            const token = jwt.sign(
-                {
-                    id: user.id,
-                    username: user.name,
-                    email: user.email,
-                    isAdmin: user.is_admin,
-                },
-                process.env.JWT_KEY,
-                {
-                    expiresIn: "48h",
-                }
-            );
-
+        if (matched) {
+            const token = createUserToken(user.id, user.name, user.email, user.is_admin)
             res.send({
                 id: user.id,
-                username: user.name,
+                name: user.name,
                 email: user.email,
-                isAdmin: user.is_admin,
-                token: token,
+                is_admin: user.is_admin,
+                token: token
             });
         } else {
             res.status(401).json({ message: "Unauthorized" });
         }
     } catch (error) {
+        console.log(error);
         res.status(404).json({ message: "Something went wrong", error: error });
     }
 };
