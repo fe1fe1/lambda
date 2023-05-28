@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import productsRouter from "./routes/products-routes.js";
-import usersRouter from "./routes/users-routes.js";
-import { pool } from "./db.js";
+import productRouter from "./routes/product-routes.js";
+import userRouter from "./routes/user-routes.js";
+import paymentRouter from "./routes/payment-routes.js";
 
 dotenv.config();
 
@@ -15,8 +15,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // routes
-app.use("/api", productsRouter);
-app.use("/api", usersRouter);
+app.use("/api", productRouter);
+app.use("/api", userRouter);
+app.use("/api", paymentRouter);
 
 // server
 const port = process.env.PORT || 5000;
