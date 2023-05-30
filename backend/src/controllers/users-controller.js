@@ -12,7 +12,7 @@ export const registerUser = async (req, res) => {
             .json({ message: "Username, email and password fields are required" });
 
     const [duplicate] = await pool.query(
-        `SELECT * FROM ${usersTable} WHERE name = ? or email = ?`,
+        `SELECT * FROM ${usersTable} WHERE name=? or email=?`,
         [username, email]
     );
     console.log(duplicate);
@@ -30,8 +30,8 @@ export const registerUser = async (req, res) => {
             [username, email, hashedPwd]
         );
 
-        console.log("success");
         console.log(result);
+        console.log("success");
         res.json({ id: result.insertId, username, email });
     } catch (error) {
         res.status(404).json({ message: "Something went wrong", error: error });
@@ -40,9 +40,10 @@ export const registerUser = async (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
+    console.log("authenticating user...");
     try {
         const [userData] = await pool.query(
-            `SELECT * FROM ${usersTable} WHERE email = ?`,
+            `SELECT * FROM ${usersTable} WHERE email=?`,
             [req.body.email]
         );
         console.log(req.body);
@@ -59,6 +60,7 @@ export const loginUser = async (req, res) => {
 
         if (matched) {
             const token = createUserToken(user.id, user.name, user.email, user.is_admin)
+            console.log("success");
             res.send({
                 id: user.id,
                 name: user.name,

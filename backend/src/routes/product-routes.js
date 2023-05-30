@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { getAllResources, getResourceById } from "../utils.js";
+import { getAllResources, getResourceById } from "../middlewares/sql-middlewares.js";
 
 const router = Router();
 

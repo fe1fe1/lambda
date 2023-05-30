@@ -15,7 +15,7 @@ const userSlice = createSlice({
     reducers: {
         setCredentials: (state, action) => {
             const data = action.payload
-            state.username = data.username;
+            state.username = data.name;
             state.email = data.email;
             state.token = data.token;
             state.is_admin = data.is_admin;
