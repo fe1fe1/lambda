@@ -43,13 +43,12 @@ export const deleteResourceById = (table) => {
         console.log("utils");
         try {
             const [result] = await pool.query(
-                `DELETE * FROM ${table} WHERE id=?`,
+                `DELETE FROM ${table} WHERE id=?`,
                 [req.params.id]
             );
             if (result.length <= 0) {
                 return res.status(404).json({ message: `Resource not found in: ${table}` });
             }
-            console.log(result);
             console.log("success");
             res.sendStatus(204);
             next()

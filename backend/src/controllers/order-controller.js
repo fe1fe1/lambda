@@ -17,8 +17,8 @@ const joinQuery = `SELECT purchase_order.id,
                           purchase_order.delivered_at
                    FROM purchase_order 
                    INNER JOIN user ON purchase_order.user_id=user.id
-                   INNER JOIN shipping ON purchase_order.user_id=shipping.userId
-                   INNER JOIN payment ON purchase_order.user_id=payment.userId`;
+                   INNER JOIN shipping ON purchase_order.user_id=shipping.user_id
+                   INNER JOIN payment ON purchase_order.user_id=payment.user_id`;
 
 export const getUserOrders = async (req, res) => {
     console.log("getting orders...");
@@ -64,7 +64,8 @@ export const getUserOrder = async (req, res) => {
 
 export const postUserOrder = async (req, res) => {
     console.log("posting orders...");
-    const { userId, itemsPrice, shippingPrice, totalPrice } = req.body;
+    const userId = req.params.userId
+    const { itemsPrice, shippingPrice, totalPrice } = req.body;
     if (!userId || !itemsPrice || !shippingPrice || !totalPrice)
         return res.status(409).json({ message: "missing fields" })
     try {
@@ -73,8 +74,8 @@ export const postUserOrder = async (req, res) => {
                 shipping.id AS shippingId,
                 payment.id AS paymentId
             FROM user
-            INNER JOIN shipping ON user.id=shipping.userId
-            INNER JOIN payment ON user.id=payment.userId
+            INNER JOIN shipping ON user.id=shipping.user_id
+            INNER JOIN payment ON user.id=payment.user_id
             WHERE user.id=?`, [userId]
         );
         const [result] = await pool.query(`
@@ -93,18 +94,16 @@ export const postUserOrder = async (req, res) => {
 };
 
 export const deleteUserOrder = async (req, res) => {
-    console.log("deleting orders...}");
+    console.log("deleting orders... ", req.params.orderId);
     try {
         const [result] = await pool.query(
-            `DELETE FROM purchase_order WHERE id = ?`,
+            `DELETE FROM purchase_order WHERE id=?`,
             [req.params.orderId]
         );
         if (result.length <= 0) {
             return res.status(404).json({ message: `Order not found` });
         }
-        console.log(result);
         console.log("success");
-        res.send(result);
 
     } catch (error) {
         res.status(500).json({ message: "Something went wrong", error: error });
