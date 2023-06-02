@@ -71,7 +71,7 @@ export const deleteUserShipping = async (req, res) => {
     console.log("deleting shipping...");
     try {
         const [result] = await pool.query(
-            `DELETE * FROM ${shippingTable} WHERE userId = ?`,
+            `DELETE * FROM ${shippingTable} WHERE userId=?`,
             [req.params.userId]
         );
         if (result.length <= 0) {
