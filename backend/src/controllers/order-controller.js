@@ -1,4 +1,5 @@
 import { pool } from "../db.js";
+import { handleOrderPrice, handleUserInfo } from "../handlers/order-handlers.js";
 
 const joinQuery = `SELECT purchase_order.id,
                           user.name,
@@ -22,14 +23,16 @@ const joinQuery = `SELECT purchase_order.id,
 
 export const getUserOrders = async (req, res) => {
     console.log("getting orders...");
+
     const userId = req.params.userId;
+
     try {
         const [result] = await pool.query(
             `${joinQuery} WHERE purchase_order.user_id=?`,
             [userId]
         );
         if (result.length <= 0) {
-            return res.status(404).json({ message: `No orders where found` });
+            return res.status(404).json({ message: "No orders were found" });
         }
         console.log(result);
         console.log("success");
@@ -43,7 +46,9 @@ export const getUserOrders = async (req, res) => {
 
 export const getUserOrder = async (req, res) => {
     console.log("getting order...");
+
     const orderId = req.params.orderId;
+
     try {
         const [result] = await pool.query(
             `${joinQuery} WHERE purchase_order.id=?`,
@@ -63,29 +68,39 @@ export const getUserOrder = async (req, res) => {
 };
 
 export const postUserOrder = async (req, res) => {
-    console.log("posting orders...");
-    const userId = req.params.userId
-    const { itemsPrice, shippingPrice, totalPrice } = req.body;
-    if (!userId || !itemsPrice || !shippingPrice || !totalPrice)
-        return res.status(409).json({ message: "missing fields" })
+    console.log("posting order...");
+
+    const userId = req.params.userId;
+    if (!userId)
+        return res.status(409).json({ message: "Missing user id" });
+
+    const orderItems = req.body.orderItems;
+    if (!orderItems)
+        return res.status(409).json({ message: "Missing items" });
+
     try {
-        const [userInfo] = await pool.query(`
-            SELECT 
-                shipping.id AS shippingId,
-                payment.id AS paymentId
-            FROM user
-            INNER JOIN shipping ON user.id=shipping.user_id
-            INNER JOIN payment ON user.id=payment.user_id
-            WHERE user.id=?`, [userId]
+        const { shippingId, paymentId } = await handleUserInfo(userId);
+        const { itemsPrice, shippingPrice, totalPrice } = await handleOrderPrice(orderItems);
+
+        const [orderResult] = await pool.query(`
+                    INSERT INTO purchase_order 
+                    (user_id,shipping_id,payment_id,items_price,shipping_price,total_price)
+                    VALUES (?)`,
+            [[userId, shippingId, paymentId, itemsPrice, shippingPrice, totalPrice]]
         );
+
+        const orderItemsArray = orderItems.map((item) =>
+            [orderResult.insertId, item.productId, item.quantity]
+        )
+
         const [result] = await pool.query(`
-            INSERT INTO purchase_order (user_id,shipping_id,payment_id,items_price,shipping_price,total_price)
-            VALUES (?)`,
-            [[userId, userInfo[0].shippingId, userInfo[0].paymentId, itemsPrice, shippingPrice, totalPrice]]
+                    INSERT INTO order_item (order_id,product_id,qty)
+                    VALUES ?`,
+            [orderItemsArray]
         );
-        console.log(result);
-        console.log("success");
-        res.send({ orderId: result.insertId });
+
+        console.log("success: ", result);
+        res.send({ orderId: orderResult.insertId });
     } catch (error) {
         res.status(500).json({ message: "Something went wrong", error: error });
         console.log(error);
@@ -94,7 +109,7 @@ export const postUserOrder = async (req, res) => {
 };
 
 export const deleteUserOrder = async (req, res) => {
-    console.log("deleting orders... ", req.params.orderId);
+    console.log("deleting order... ", req.params.orderId);
     try {
         const [result] = await pool.query(
             `DELETE FROM purchase_order WHERE id=?`,
@@ -104,7 +119,6 @@ export const deleteUserOrder = async (req, res) => {
             return res.status(404).json({ message: `Order not found` });
         }
         console.log("success");
-
     } catch (error) {
         res.status(500).json({ message: "Something went wrong", error: error });
     }
