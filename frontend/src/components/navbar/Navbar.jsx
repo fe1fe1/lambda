@@ -7,7 +7,7 @@ import { logOut, selectCurrentToken, selectCurrentUsername } from "../../feature
 import { emptyCart } from "../../features/cart/cartSlice";
 const Navbar = (props) => {
 
-    const username = useSelector(selectCurrentUsername)
+    const name = useSelector(selectCurrentUsername)
     const token = useSelector(selectCurrentToken)
     const dispatch = useDispatch();
 
@@ -42,7 +42,7 @@ const Navbar = (props) => {
                     <div className="profile-container">
                         {token ? (
                             <div className="user-profile">
-                                <span className="profile-navbar-username">{username}</span>
+                                <span className="profile-navbar-username">{name}</span>
                                 <div className="user-profile-dropdown">
                                     <span>settings</span>
                                     <button className="logout-button" onClick={handleLogut}>logout</button>
