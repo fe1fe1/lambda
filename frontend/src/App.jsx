@@ -7,7 +7,7 @@ import Login from "./pages/login/Login";
 import Signup from "./pages/signup/Signup";
 import AppLayout from "./layouts/AppLayout";
 import RequireAuth from "./layouts/RequireAuth";
-import Checking from "./pages/shipping/Checking";
+import Checking from "./pages/checking/Checking";
 
 const App = () => {
     return (
