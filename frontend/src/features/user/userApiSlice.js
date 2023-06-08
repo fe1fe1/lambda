@@ -17,9 +17,9 @@ export const userApiSlice = apiSlice.injectEndpoints({
             })
         }),
     })
-})
+});
 
 export const {
     useLoginMutation,
     useSignupMutation
-} = userApiSlice
+} = userApiSlice;

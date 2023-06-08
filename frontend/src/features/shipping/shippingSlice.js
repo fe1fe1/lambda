@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const storage = localStorage.getItem('shippingData') ? JSON.parse(localStorage.getItem('shippingData')) : null
 
 const initialState = {
-    address: storage?.address ? storage.address : null,
+    address: storage?.address ? storage.address : "",
     city: storage?.city ? storage.city : null,
     postalCode: storage?.postalCode ? storage.postalCode : null,
     country: storage?.country ? storage.country : null,

@@ -25,10 +25,10 @@ export const getUserShipping = async (req, res) => {
 export const postUserShipping = async (req, res) => {
     console.log("posting shipping...", req.body)
     const userId = req.params.userId;
-    const { address, city, postal_code, country } = req.body;
-    if (!address || !city || !postal_code || !country)
+    const { address, city, postalCode, country } = req.body;
+    if (!address || !city || !postalCode || !country)
         return res.status(409).json({ message: "Missing fields" })
-    const values = [address, city, postal_code, country]
+    const values = [address, city, postalCode, country]
     try {
         const [result] = await pool.query(
             `INSERT INTO shipping (user_id, address, city, postal_code, country) VALUES (?) 

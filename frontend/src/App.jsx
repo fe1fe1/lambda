@@ -7,7 +7,7 @@ import Login from "./pages/login/Login";
 import Signup from "./pages/signup/Signup";
 import AppLayout from "./layouts/AppLayout";
 import RequireAuth from "./layouts/RequireAuth";
-import Checkout from "./pages/checkout/Checkout.jsx";
+import Settings from "./pages/settings/Settings.jsx";
 
 const App = () => {
     return (
@@ -24,7 +24,7 @@ const App = () => {
                 {/* auth protected routes*/}
                 <Route element={<RequireAuth />}>
                     <Route path="/cart" element={<Cart />} />
-                    <Route path="/checkout" element={<Checkout />} />
+                    <Route path="/settings" element={<Settings />} />
                 </Route>
             </Routes>
 

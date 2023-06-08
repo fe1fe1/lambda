@@ -1,4 +1,4 @@
-import { Navigate, Outlet, useLocation, useNavigate } from "react-router"
+import { Navigate, Outlet, } from "react-router"
 import Navbar from "../components/navbar/Navbar"
 import { useSelector } from "react-redux"
 import { selectCurrentToken } from "../features/user/userSlice"
