@@ -8,6 +8,8 @@ import Signup from "./pages/signup/Signup";
 import AppLayout from "./layouts/AppLayout";
 import RequireAuth from "./layouts/RequireAuth";
 import Settings from "./pages/settings/Settings.jsx";
+import CheckoutShipping from "./pages/checkout-shipping/CheckoutShipping";
+import CheckoutPayment from "./pages/checkout-payment/CheckoutPayment";
 
 const App = () => {
     return (
@@ -24,6 +26,8 @@ const App = () => {
                 {/* auth protected routes*/}
                 <Route element={<RequireAuth />}>
                     <Route path="/cart" element={<Cart />} />
+                    <Route path="/checkout-shipping" element={<CheckoutShipping />} />
+                    <Route path="/checkout-payment" element={<CheckoutPayment />} />
                     <Route path="/settings" element={<Settings />} />
                 </Route>
             </Routes>
