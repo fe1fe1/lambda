@@ -12,12 +12,6 @@ const ShippingForm = (props) => {
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        console.log('change');
-      return () => {
-      }
-    }, [address, city, postalCode , country])
-
     const addressOnChange = (e) => { setAddress(e.target.value) }; 
     const cityOnChange = (e) => { setCity(e.target.value) }; 
     const postalCodeOnChange = (e) => { setPostalCode(e.target.value) }; 
