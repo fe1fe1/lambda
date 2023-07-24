@@ -14,3 +14,5 @@ export const shippingApiSlice = apiSlice.injectEndpoints({
         }),
     }),
 });
+
+export const { getShipping, postShipping } = shippingApiSlice;

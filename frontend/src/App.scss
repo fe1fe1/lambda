@@ -8,7 +8,7 @@
 }
 body {
     background-color: #ebebeb !important;
-    padding-top: 50px;
+    padding-top: 3.3rem;
     height: 2000px;
     min-height: calc(100vh - 40px);
     //----------------------------------------------------------------//
@@ -54,4 +54,34 @@ body {
             border-bottom: 1px solid var(--main-color);
         }
     }
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .col-25 {
+        flex: 25%;
+    }
+    
+    .col-50 {
+        flex: 50%;
+    }
+    
+    .col-75 {
+        flex: 75%;
+    }
+    
+    .col-25,
+    .col-50,
+    .col-75 {
+        padding: 0 1rem;
+    }
+}
+
+::selection{
+    background: var(--main-color);
+}
+
+input:focus{
+    outline-color: var(--main-color);
 }

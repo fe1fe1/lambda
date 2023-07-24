@@ -79,7 +79,7 @@ const PaymentForm = (props) => {
                 </div>
             </div>
                 <div className="submit-container">
-                    <button type="submit" className="btn">Save</button>
+                    <button type="submit" className="btn">Save Payment Info</button>
                 </div>
         </form>
     )

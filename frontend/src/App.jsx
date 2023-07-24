@@ -10,6 +10,7 @@ import RequireAuth from "./layouts/RequireAuth";
 import Settings from "./pages/settings/Settings.jsx";
 import CheckoutShipping from "./pages/checkout-shipping/CheckoutShipping";
 import CheckoutPayment from "./pages/checkout-payment/CheckoutPayment";
+import CheckoutOrderInfo from "./pages/checkout-order-info/CheckoutOrderInfo";
 
 const App = () => {
     return (
@@ -29,6 +30,7 @@ const App = () => {
                     <Route path="/checkout-shipping" element={<CheckoutShipping />} />
                     <Route path="/checkout-payment" element={<CheckoutPayment />} />
                     <Route path="/settings" element={<Settings />} />
+                    <Route path="/checkout-order-info" element={<CheckoutOrderInfo/>} />
                 </Route>
             </Routes>
 

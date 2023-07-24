@@ -72,9 +72,9 @@ const ShippingForm = (props) => {
                     </div>
                 </div>
             </div>
-                <div className="submit-container">
-                    <button type="submit" className="btn">Save</button>
-                </div>
+            <div className="submit-container">
+                <button type="submit" className="btn">Save Shipping Info</button>
+            </div>
         </form>
     )
 }

@@ -1,0 +1,40 @@
+.order-info-container{
+    margin: 50px;
+    padding: 0 3rem;
+}
+
+.order-info-block{
+    border-style: solid;
+    border-width: 1px;
+    padding: 0.5rem;
+    margin: 3rem 0;
+    padding: 1.5rem;
+}
+
+.order-summary{
+    padding-left:0;
+}
+
+li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: flex-start;
+}
+
+.order-item-info{
+    padding: 1rem 0;
+    .cart-item-image{
+        min-width: 90px;
+        img{
+            max-width: 5rem;
+            max-height: 5rem;
+        }
+    }
+    .cart-item-options{
+        min-width: 200px;
+        .cart-item-name{
+            white-space: nowrap;
+        }
+    }
+}

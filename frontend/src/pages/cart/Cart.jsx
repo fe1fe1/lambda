@@ -46,32 +46,32 @@ const Cart = () => {
                           </div>
                             :
                             (<>{items.map(item =>
-                              <li>
-                                <div className="cart-item-image">
-                                  <img src={item.img} alt="product" />
-                                </div>
-                                <div className="cart-item-options">
-                                  <div className="cart-item-name">
-                                      {item.name}
-                                  </div>
-                                  <div>
-                                  <select value={item.quantity} onChange={e => handleQuantityOnChange(e,item)}>
-                                      {[...Array(item.stock).keys()].map(x =>
-                                        <option key={x + 1} value={x + 1}>{x + 1}</option>
-                                      )}
-                                    </select>
-                                    <button type="button" className="delete-item-button" onClick={() => handleDeleteFromCart(item.id)} >
-                                      Delete
-                                    </button>
-                                  </div>
-                                </div>
-                                <div className="cart-price">
-                                  ${item.price}
-                                </div>
-                              </li>
+                                <li>
+                                    <div className="cart-item-image">
+                                        <img src={item.img} alt="product" />
+                                    </div>
+                                    <div className="cart-item-options">
+                                        <div className="cart-item-name">
+                                            {item.name}
+                                        </div>
+                                        <div>
+                                            <select value={item.quantity} onChange={e => handleQuantityOnChange(e,item)}>
+                                                {[...Array(item.stock).keys()].map(x =>
+                                                    <option key={x + 1} value={x + 1}>{x + 1}</option>
+                                                )}
+                                            </select>
+                                            <button type="button" className="delete-item-button" onClick={() => handleDeleteFromCart(item.id)} >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="cart-price">
+                                        ${item.price}
+                                    </div>
+                                </li>
                             )}
                                 <button type="button" className="delete-item-button" onClick={() => handleDeleteAll()} >
-                                  Delete All
+                                    Delete All
                                 </button>
                             </>)
                         }
