@@ -1,16 +1,21 @@
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import { selectCartItems } from "../../features/cart/cartSlice";
 import { selectCurrentShipping } from "../../features/shipping/shippingSlice";
 import { selectCurrentUsername } from "../../features/user/userSlice";
 import "./CheckoutOrderInfo.scss"
 
 const CheckoutOrderInfo = () => {
-    
+    const navigate = useNavigate(); 
     const userName = useSelector(selectCurrentUsername);
     const shipping = useSelector(selectCurrentShipping);
     const items = useSelector(selectCartItems);
     const itemsTotalPrice = items.reduce((a, c) => a + c.price * c.quantity, 0);
     const shippingPrice = itemsTotalPrice > 1000 ? itemsTotalPrice+15 : itemsTotalPrice;
+
+    const handleOnClick = () =>{
+        navigate('/checkout-payment');
+    };
 
     return (
         <div className="block-container order-info-container">
@@ -55,6 +60,10 @@ const CheckoutOrderInfo = () => {
                                 <strong>${itemsTotalPrice+shippingPrice}</strong>
                             </li>
                         </ul>
+                    </div>
+                    <div className="order-info-block">
+                        <h2> Seems good? One last step.</h2>
+                        <button className="checkout-button" onClick={handleOnClick}>Proceed to payment</button>
                     </div>
                 </div>
             </div>

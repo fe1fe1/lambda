@@ -5,7 +5,7 @@ const CheckoutShipping = () => {
     const navigate = useNavigate();
 
     const handleShippingSubmit = () =>{
-        navigate('/checkout-payment');
+        navigate('/checkout-order-info');
     };
 
     return (

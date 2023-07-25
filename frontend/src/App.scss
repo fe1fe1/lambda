@@ -76,6 +76,19 @@ body {
     .col-75 {
         padding: 0 1rem;
     }
+    .checkout-button{
+        color: black;
+        background-color: transparent;
+        border-style: solid;
+        border-color: black;
+        transition: ease-out 0.3s;
+        &:hover{
+            box-shadow: inset 300px 0px 0px 0px var(--main-color);
+            color: white;
+            border-color: var(--main-color);
+            cursor: pointer;
+        }
+    }
 }
 
 ::selection{

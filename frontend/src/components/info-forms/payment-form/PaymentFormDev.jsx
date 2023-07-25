@@ -43,7 +43,7 @@ const PaymentFormDev = (props) => {
             <h3>Payment</h3>
             <PaymentElement/>
             <div className="submit-container" style={{padding:'1rem'}}>
-                <button className="btn" disabled={!stripe}>Submit</button>
+                <button className="btn" disabled={!stripe}>Pay and Finish</button>
             </div>
         </form>
     )
