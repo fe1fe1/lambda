@@ -9,8 +9,8 @@ export const shippingApiSlice = apiSlice.injectEndpoints({
             query: ({ userId, address, city, postalCode, country }) => ({
                 url: `/user/${userId}/shipping`,
                 method: 'POST',
-                body: { address, city, postalCode, country }
-            })
+                body: { address, city, postalCode, country },
+            }),
         }),
     }),
 });

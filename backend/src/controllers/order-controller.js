@@ -77,6 +77,11 @@ export const postUserOrder = async (req, res) => {
     const orderItems = req.body.orderItems;
     if (!orderItems)
         return res.status(409).json({ message: "Missing items" });
+    orderItems.forEach(item => {
+        if (!item.productId || !item.quantity){
+            return res.status(409).json({ message: "Missing item data" });
+        }
+    });
 
     try {
         const { shippingId, paymentId } = await handleUserInfo(userId);
