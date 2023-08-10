@@ -2,17 +2,22 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { selectCartItems } from "../../features/cart/cartSlice";
+import { usePostUserOrderMutation } from "../../features/orders/ordersApiSlice";
 import { selectCurrentShipping, selectValidShipping } from "../../features/shipping/shippingSlice";
-import { selectCurrentUsername } from "../../features/user/userSlice";
+import { selectCurrentUserId, selectCurrentUsername } from "../../features/user/userSlice";
 import "./CheckoutOrderInfo.scss"
 
 const CheckoutOrderInfo = () => {
     const navigate = useNavigate(); 
+    const userId = useSelector(selectCurrentUserId);
     const userName = useSelector(selectCurrentUsername);
     const shipping = useSelector(selectCurrentShipping);
-    const items = useSelector(selectCartItems);
+    const orderItems = useSelector(selectCartItems);
     const validShipping = useSelector(selectValidShipping);
-    const itemsTotalPrice = items.reduce((a, c) => a + c.price * c.quantity, 0);
+
+    const [postOrder, orderPostingResult] = usePostUserOrderMutation();
+
+    const itemsTotalPrice = orderItems.reduce((a, c) => a + c.price * c.quantity, 0);
     const shippingPrice = itemsTotalPrice > 1000 ? itemsTotalPrice+15 : itemsTotalPrice;
 
     useEffect(() => {
@@ -21,7 +26,11 @@ const CheckoutOrderInfo = () => {
         }
     }, [validShipping, navigate])
 
-    const handleOnClick = () =>{
+    const handleOnClick = async(e) =>{
+        e.preventDefault();
+        const postedOrder = await postOrder({ userId, orderItems }).unwrap();
+        console.log('****ORDER POSTED****: ', postedOrder);
+        console.log('****POSTING ERRORS****: ', orderPostingResult?.error);
         navigate('/checkout-payment');
     };
 
@@ -34,9 +43,9 @@ const CheckoutOrderInfo = () => {
                         <br/>
                         <strong>Shipping: </strong>{shipping.address}, {shipping.city}, {shipping.postalCode}, {shipping.country}
                     </div>
-                    <div className="order-info-block items-info">
+                    <div className="order-info-block orderItems-info">
                         <strong>Order Items</strong>
-                        {items.map(item => 
+                        {orderItems.map(item => 
                             <li className="order-item-info">
                                 <div className="cart-item-image">
                                     <img src={item.img} alt="product" />
@@ -69,9 +78,9 @@ const CheckoutOrderInfo = () => {
                             </li>
                         </ul>
                     </div>
-                    <div className="order-info-block">
-                        <h2> Seems good? One last step.</h2>
-                        <button className="checkout-button" onClick={handleOnClick}>Place order and proceed to pay</button>
+                    <div className="order-info-block place-order-block">
+                        <h3> Seems good? Place the order and proceed to payment!</h3>
+                        <button className="checkout-button" onClick={handleOnClick}>Place order</button>
                     </div>
                 </div>
             </div>

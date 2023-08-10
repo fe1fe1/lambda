@@ -35,12 +35,9 @@ const CheckoutPayment = () => {
     const cartItems = useSelector(selectCartItems);
 
     const cartAmount = cartItems.reduce((a, c) => a + c.price * c.quantity, 0)
-    console.log('cart amount: ', cartAmount);
     const totalAmount = cartAmount > 1000 ? cartAmount + 15 : cartAmount;
-    console.log('total amount: ', totalAmount);
 
     options.amount = totalAmount;
-    console.log("OPTIONS AMOUNT: ",options.amount);
 
     useEffect(() => {
         if (!stepCompleted)

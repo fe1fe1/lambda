@@ -7,11 +7,13 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
             query: userId => `/user/${userId}/orders`,
         }),
         postUserOrder: builder.mutation({
-            query: ({ userId, cartItems }) => ({
-                url: `/user/${userId}/shipping`,
+            query: ({ userId, orderItems }) => ({
+                url: `/user/${userId}/order`,
                 method: 'POST',
-                body: { cartItems },
+                body: { orderItems },
             }),
         }),
     }),
 });
+
+export const { useGetUserOrdersQuery, usePostUserOrderMutation } = ordersApiSlice;

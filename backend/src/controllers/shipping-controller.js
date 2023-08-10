@@ -24,22 +24,45 @@ export const getUserShipping = async (req, res) => {
 
 export const postUserShipping = async (req, res) => {
     console.log("posting shipping...", req.body)
+
     const userId = req.params.userId;
     const { address, city, postalCode, country } = req.body;
+
     if (!address || !city || !postalCode || !country)
         return res.status(409).json({ message: "Missing fields" })
+
     const values = [address, city, postalCode, country]
+
+    try {
+        const [repeated] = await pool.query(
+            `SELECT * FROM shipping WHERE user_id=?
+                                    AND address=?
+                                    AND city=?
+                                    AND postal_code=?
+                                    AND country=?`,
+            [userId, ...values],
+        );
+        if (repeated[0])
+            return res.json({ id: repeated[0].id });
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(502).json({ message: "Something went wrong", error: error });
+    }
+
     try {
         const [result] = await pool.query(
-            `INSERT INTO shipping (user_id, address, city, postal_code, country) VALUES (?) 
-             ON DUPLICATE KEY UPDATE address=?, city=?, postal_code=?, country=?`,
-            [[userId, ...values], ...values],
+            `INSERT INTO shipping (user_id, address, city, postal_code, country) VALUES (?)`,
+            [[userId, ...values]],
         );
+
         console.log(result);
         console.log("success");
-        res.json(req.body);
+
+        res.json({ id: result.insertId });
+
     } catch (error) {
-        res.status(404).json({ message: "Something went wrong", error: error });
+        res.status(502).json({ message: "Something went wrong", error: error });
         console.log(error);
     }
 };

@@ -1,5 +1,5 @@
 import { pool } from "../db.js";
-import { handleOrderPrice, handleUserInfo } from "../handlers/order-handlers.js";
+import { handleOrderPrice } from "../handlers/order-handlers.js";
 
 const joinQuery = `SELECT purchase_order.id,
                           user.name,
@@ -8,7 +8,6 @@ const joinQuery = `SELECT purchase_order.id,
                           shipping.city,
                           shipping.postal_code,
                           shipping.country,
-                          payment.method,
                           purchase_order.items_price, 
                           purchase_order.shipping_price,
                           purchase_order.total_price,
@@ -18,8 +17,7 @@ const joinQuery = `SELECT purchase_order.id,
                           purchase_order.delivered_at
                    FROM purchase_order 
                    INNER JOIN user ON purchase_order.user_id=user.id
-                   INNER JOIN shipping ON purchase_order.user_id=shipping.user_id
-                   INNER JOIN payment ON purchase_order.user_id=payment.user_id`;
+                   INNER JOIN shipping ON purchase_order.user_id=shipping.user_id`;
 
 export const getUserOrders = async (req, res) => {
     console.log("getting orders...");
@@ -69,6 +67,7 @@ export const getUserOrder = async (req, res) => {
 
 export const postUserOrder = async (req, res) => {
     console.log("posting order...");
+    console.log("****REQUEST BODY****: ", req.body);
 
     const userId = req.params.userId;
     if (!userId)
@@ -77,25 +76,29 @@ export const postUserOrder = async (req, res) => {
     const orderItems = req.body.orderItems;
     if (!orderItems)
         return res.status(409).json({ message: "Missing items" });
-    orderItems.forEach(item => {
-        if (!item.productId || !item.quantity){
-            return res.status(409).json({ message: "Missing item data" });
-        }
-    });
 
     try {
-        const { shippingId, paymentId } = await handleUserInfo(userId);
         const { itemsPrice, shippingPrice, totalPrice } = await handleOrderPrice(orderItems);
+
+        const [userShippingResult] = await pool.query(
+            `SELECT id FROM shipping WHERE user_id = ?`,
+            [userId]);
+
+        if (!userShippingResult[0]) {
+            return res.status(404).json({ message: "User shipping not found" });
+        }
+
+        console.log('SHIPPING ID: ', userShippingResult[0]);
 
         const [orderResult] = await pool.query(`
                     INSERT INTO purchase_order 
-                    (user_id,shipping_id,payment_id,items_price,shipping_price,total_price)
+                    (user_id,shipping_id,items_price,shipping_price,total_price)
                     VALUES (?)`,
-            [[userId, shippingId, paymentId, itemsPrice, shippingPrice, totalPrice]]
+            [[userId, userShippingResult[0].id, itemsPrice, shippingPrice, totalPrice]]
         );
 
         const orderItemsArray = orderItems.map((item) =>
-            [orderResult.insertId, item.productId, item.quantity]
+            [orderResult.insertId, item.id, item.quantity]
         )
 
         const [result] = await pool.query(`
