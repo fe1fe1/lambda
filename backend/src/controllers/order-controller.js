@@ -73,6 +73,10 @@ export const postUserOrder = async (req, res) => {
     if (!userId)
         return res.status(409).json({ message: "Missing user id" });
 
+    const shippingId = req.body.shippingId;
+    if (!shippingId)
+        return res.status(409).json({ message: "Missing shipping id" });
+
     const orderItems = req.body.orderItems;
     if (!orderItems)
         return res.status(409).json({ message: "Missing items" });
@@ -80,21 +84,11 @@ export const postUserOrder = async (req, res) => {
     try {
         const { itemsPrice, shippingPrice, totalPrice } = await handleOrderPrice(orderItems);
 
-        const [userShippingResult] = await pool.query(
-            `SELECT id FROM shipping WHERE user_id = ?`,
-            [userId]);
-
-        if (!userShippingResult[0]) {
-            return res.status(404).json({ message: "User shipping not found" });
-        }
-
-        console.log('SHIPPING ID: ', userShippingResult[0]);
-
         const [orderResult] = await pool.query(`
                     INSERT INTO purchase_order 
                     (user_id,shipping_id,items_price,shipping_price,total_price)
                     VALUES (?)`,
-            [[userId, userShippingResult[0].id, itemsPrice, shippingPrice, totalPrice]]
+            [[userId, shippingId, itemsPrice, shippingPrice, totalPrice]]
         );
 
         const orderItemsArray = orderItems.map((item) =>
@@ -108,7 +102,7 @@ export const postUserOrder = async (req, res) => {
         );
 
         console.log("success: ", result);
-        res.send({ orderId: orderResult.insertId });
+        res.send({ id: orderResult.insertId });
     } catch (error) {
         res.status(500).json({ message: "Something went wrong", error: error });
         console.log(error);

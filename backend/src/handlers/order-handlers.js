@@ -12,7 +12,7 @@ export const handleOrderPrice = async (orderItems) => {
         ));
 
     const itemsPrice = totalItemsPrices.reduce((acc, curr) => acc + curr);
-    const shippingPrice = itemsPrice > 1000 ? 0 : 15;
+    const shippingPrice = itemsPrice > 1000 ? 15 : 0;
 
     console.log(itemsPrice, shippingPrice);
 

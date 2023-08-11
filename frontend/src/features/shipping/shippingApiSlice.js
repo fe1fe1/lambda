@@ -15,4 +15,4 @@ export const shippingApiSlice = apiSlice.injectEndpoints({
     }),
 });
 
-export const { getShipping, postShipping } = shippingApiSlice;
+export const { useGetShippingQuery, usePostShippingMutation } = shippingApiSlice;

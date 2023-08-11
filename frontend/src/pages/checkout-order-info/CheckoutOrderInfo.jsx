@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { selectCartItems } from "../../features/cart/cartSlice";
 import { usePostUserOrderMutation } from "../../features/orders/ordersApiSlice";
+import { postShipping, usePostShippingMutation } from "../../features/shipping/shippingApiSlice";
 import { selectCurrentShipping, selectValidShipping } from "../../features/shipping/shippingSlice";
 import { selectCurrentUserId, selectCurrentUsername } from "../../features/user/userSlice";
 import "./CheckoutOrderInfo.scss"
@@ -15,10 +16,11 @@ const CheckoutOrderInfo = () => {
     const orderItems = useSelector(selectCartItems);
     const validShipping = useSelector(selectValidShipping);
 
+    const [postShipping, shippingPostingResult] = usePostShippingMutation();
     const [postOrder, orderPostingResult] = usePostUserOrderMutation();
 
     const itemsTotalPrice = orderItems.reduce((a, c) => a + c.price * c.quantity, 0);
-    const shippingPrice = itemsTotalPrice > 1000 ? itemsTotalPrice+15 : itemsTotalPrice;
+    const shippingPrice = itemsTotalPrice > 1000 ? 15 : 0;
 
     useEffect(() => {
         if(!validShipping){
@@ -28,9 +30,15 @@ const CheckoutOrderInfo = () => {
 
     const handleOnClick = async(e) =>{
         e.preventDefault();
-        const postedOrder = await postOrder({ userId, orderItems }).unwrap();
+
+        const postedShipping = await postShipping({ userId, ...shipping }).unwrap();
+
+        const postedOrder = await postOrder({ userId, shippingId: postedShipping.id, orderItems }).unwrap();
+
+        console.log('****SHIPPING POSTED****: ', postedShipping);
+        console.log('****SHIPPING POSTING ERRORS****: ', shippingPostingResult?.error);
         console.log('****ORDER POSTED****: ', postedOrder);
-        console.log('****POSTING ERRORS****: ', orderPostingResult?.error);
+        console.log('****ORDER POSTING ERRORS****: ', orderPostingResult?.error);
         navigate('/checkout-payment');
     };
 

@@ -7,10 +7,10 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
             query: userId => `/user/${userId}/orders`,
         }),
         postUserOrder: builder.mutation({
-            query: ({ userId, orderItems }) => ({
+            query: ({ userId, shippingId, orderItems }) => ({
                 url: `/user/${userId}/order`,
                 method: 'POST',
-                body: { orderItems },
+                body: { shippingId, orderItems },
             }),
         }),
     }),

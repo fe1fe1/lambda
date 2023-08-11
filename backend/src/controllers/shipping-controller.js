@@ -44,7 +44,7 @@ export const postUserShipping = async (req, res) => {
         );
         if (repeated[0])
             return res.json({ id: repeated[0].id });
-        
+
     } catch (error) {
         console.log(error);
         return res.status(502).json({ message: "Something went wrong", error: error });
