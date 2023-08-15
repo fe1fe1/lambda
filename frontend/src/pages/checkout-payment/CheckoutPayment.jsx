@@ -1,6 +1,6 @@
 import { useEffect} from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import PaymentForm from "../../components/info-forms/payment-form/PaymentForm";
 import PaymentFormDev from "../../components/info-forms/payment-form/PaymentFormDev";
 import { selectValidShipping } from "../../features/shipping/shippingSlice";
@@ -29,29 +29,25 @@ const options = {
 };
 
 const CheckoutPayment = () => {
-    const stepCompleted = useSelector(selectValidShipping);
-    console.log(stepCompleted)
     const navigate = useNavigate();
-    const cartItems = useSelector(selectCartItems);
+    const location = useLocation();
 
-    const cartAmount = cartItems.reduce((a, c) => a + c.price * c.quantity, 0)
-    const totalAmount = cartAmount > 1000 ? cartAmount + 15 : cartAmount;
+    const fromCheckoutOrderInfo = location.state && location.state.fromCheckoutOrderInfo;
+    const orderTotalPrice = location?.state?.orderTotalPrice;
+    const orderId = location?.state?.orderId;
 
-    options.amount = totalAmount;
+    options.amount = orderTotalPrice;
 
     useEffect(() => {
-        if (!stepCompleted)
-            navigate('/checkout-shipping');
-      return () => {
-
-      }
-    }, [stepCompleted, navigate])
+        if (!fromCheckoutOrderInfo)
+            navigate('/cart');
+    }, [fromCheckoutOrderInfo, navigate])
 
 
     return (
         <div>
             <Elements stripe={stripePromise} options={options}>
-                <PaymentFormDev paymentAmount={totalAmount}/> 
+                <PaymentFormDev paymentAmount={orderTotalPrice}/> 
             </Elements>
         </div>
     )

@@ -13,7 +13,7 @@ const Navbar = () => {
 
     const handleLogut = () => {
         dispatch(logOut());
-        dispatch(emptyCart())
+        dispatch(emptyCart());
     }
 
     return (

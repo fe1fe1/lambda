@@ -25,7 +25,7 @@ const Cart = () => {
     };
 
     const handleCheckoutOnClick = () =>{
-       navigate('/checkout-shipping'); 
+       navigate('/checkout-shipping', { state: { fromCart: true } }); 
     };
  
     console.log(items);

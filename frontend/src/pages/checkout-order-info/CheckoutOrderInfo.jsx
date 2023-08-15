@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router";
-import { selectCartItems } from "../../features/cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router";
+import { emptyCart, selectCartItems } from "../../features/cart/cartSlice";
 import { usePostUserOrderMutation } from "../../features/orders/ordersApiSlice";
 import { postShipping, usePostShippingMutation } from "../../features/shipping/shippingApiSlice";
 import { selectCurrentShipping, selectValidShipping } from "../../features/shipping/shippingSlice";
@@ -10,11 +10,15 @@ import "./CheckoutOrderInfo.scss"
 
 const CheckoutOrderInfo = () => {
     const navigate = useNavigate(); 
+    const location = useLocation();
+    const dispatch = useDispatch();
     const userId = useSelector(selectCurrentUserId);
     const userName = useSelector(selectCurrentUsername);
     const shipping = useSelector(selectCurrentShipping);
     const orderItems = useSelector(selectCartItems);
     const validShipping = useSelector(selectValidShipping);
+
+    const fromCheckoutShipping = location.state && location.state.fromCheckoutShipping
 
     const [postShipping, shippingPostingResult] = usePostShippingMutation();
     const [postOrder, orderPostingResult] = usePostUserOrderMutation();
@@ -23,10 +27,17 @@ const CheckoutOrderInfo = () => {
     const shippingPrice = itemsTotalPrice > 1000 ? 15 : 0;
 
     useEffect(() => {
+        console.log(orderItems.length);
+        if(!fromCheckoutShipping){
+            navigate('/cart');
+        }
+        if(orderItems.length<=0){
+            navigate('/');
+        }
         if(!validShipping){
             navigate('/checkout-shipping');
         }
-    }, [validShipping, navigate])
+    }, [fromCheckoutShipping, validShipping, navigate])
 
     const handleOnClick = async(e) =>{
         e.preventDefault();
@@ -35,11 +46,15 @@ const CheckoutOrderInfo = () => {
 
         const postedOrder = await postOrder({ userId, shippingId: postedShipping.id, orderItems }).unwrap();
 
-        console.log('****SHIPPING POSTED****: ', postedShipping);
-        console.log('****SHIPPING POSTING ERRORS****: ', shippingPostingResult?.error);
-        console.log('****ORDER POSTED****: ', postedOrder);
-        console.log('****ORDER POSTING ERRORS****: ', orderPostingResult?.error);
-        navigate('/checkout-payment');
+        dispatch(emptyCart());
+        
+        navigate('/checkout-payment', { 
+            state: { 
+                fromCheckoutOrderInfo: true, 
+                orderTotalPrice: itemsTotalPrice + shippingPrice,
+                orderId: postedOrder.id
+            } 
+        });
     };
 
     return (
