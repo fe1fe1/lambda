@@ -1,84 +1,52 @@
 import { pool } from "../db.js";
-
-export const getUserPayment = async (req, res) => {
-    console.log("getting payment...");
-    try {
-        const [result] = await pool.query(
-            `SELECT * FROM payment WHERE user_id=?`,
-            [req.params.userId]
-        );
-
-        if (result.length <= 0) {
-            return res.status(404).json({ message: `Payment info not found` });
-        }
-
-        console.log(result);
-        console.log("success");
-        res.send(result);
-
-    } catch (error) {
-        res.status(500).json({ message: "Something went wrong", error: error });
-        console.log(error);
-    }
-};
+import Stripe from "stripe";
+const stripe = new Stripe("sk_test_51NOWgjLxeQ3x4qvChsmzEiqvcTqSpyqtenVLJhjpv6zzM1wmU0eobzdd81iqIFkMpcVM3oQC9wzE8u98uMVN1SVW00Fav9Kht6");
 
 export const postUserPayment = async (req, res) => {
     console.log("posting payment...", req.body)
-    const userId = req.params.userId;
-    const method = req.body.method;
-    if (!method)
-        return res.status(409).json({ message: "method field is required" })
-    try {
-        const [result] = await pool.query(
-            `INSERT INTO payment (user_id, method) VALUES (?) ON DUPLICATE KEY UPDATE method=?`,
-            [[userId, method], method],
-        );
-        console.log(result);
-        console.log("success");
-        res.send({ userId: userId, method: method });
-    } catch (error) {
-        res.status(404).json({ message: "Something went wrong", error: error });
-        console.log(error);
-    }
-};
 
-export const updateUserPayment = async (req, res) => {
-    console.log("updating payment...");
-    const userId = req.params.userId;
-    const method = req.body.method;
-    if (!method)
-        return res.status(409).json({ message: "method field is required" })
+    const orderId = req.params.orderId;
+
+    if (!orderId)
+        return res.status(409).json({ message: "Missing order id" })
 
     try {
-        const [result] = await pool.query(
-            `UPDATE payment SET method=? WHERE user_id=?`,
-            [method, userId],
-        );
-        console.log(result);
-        console.log("success");
-        res.send({ userId: userId, method: method });
-    } catch (error) {
-        res.status(404).json({ message: "Something went wrong", error: error });
-        console.log(error);
-    }
-};
+        const paymentIntent = await stripe.paymentIntents.create({
+            confirm: true,
+            amount: req.body.paymentAmount,
+            currency: 'usd',
+            automatic_payment_methods: { enabled: true },
+            payment_method: req.body.paymentMethodId,
+            return_url: 'https://example.com/order/123/complete',
+            use_stripe_sdk: true,
+            mandate_data: {
+                customer_acceptance: {
+                    type: "online",
+                    online: {
+                        ip_address: req.ip,
+                        user_agent: req.get("user-agent"),
+                    },
+                },
+            },
+        });
 
-export const deleteUserPayment = async (req, res) => {
-    console.log("deleting payment...");
-    try {
-        const [result] = await pool.query(
-            `DELETE * FROM payment WHERE user_id=?`,
-            [req.params.userId]
-        );
-        if (result.length <= 0) {
-            return res.status(404).json({ message: `Payemnt info not found` });
+        console.log(paymentIntent);
+
+        if(paymentIntent?.status === "succeeded"){
+            const [updateOrderPayment] = await pool.query(
+                `UPDATE purchase_order SET paid_at=now(), is_paid=1 WHERE id=?`,[orderId]
+            ); 
+            console.log('PATMENT UPDATE: ',updateOrderPayment);
         }
-        console.log(result);
-        console.log("success");
-        res.send(result);
 
+        res.send({
+            clientSecret: paymentIntent.client_secret,
+            nextAction: paymentIntent.next_action,
+            status: paymentIntent.status,
+        });
     } catch (error) {
-        res.status(500).json({ message: "Something went wrong", error: error });
-        next(error);
+        res.status(503).json({ message: "Something went wrong", error: error });
+        console.log(error);
     }
 };
+

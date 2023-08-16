@@ -86,8 +86,8 @@ export const postUserOrder = async (req, res) => {
 
         const [orderResult] = await pool.query(`
                     INSERT INTO purchase_order 
-                    (user_id,shipping_id,items_price,shipping_price,total_price)
-                    VALUES (?)`,
+                    (user_id,shipping_id,items_price,shipping_price,total_price,created_at)
+                    VALUES (?,now())`,
             [[userId, shippingId, itemsPrice, shippingPrice, totalPrice]]
         );
 

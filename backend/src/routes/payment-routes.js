@@ -1,16 +1,8 @@
 import { Router } from "express";
-import {
-    getUserPayment,
-    postUserPayment,
-    updateUserPayment,
-    deleteUserPayment
-} from "../controllers/payment-controller.js";
+import { postUserPayment } from "../controllers/payment-controller.js";
 
 const router = Router();
 
-router.get("/user/:userId/payment", getUserPayment);
-router.post("/user/:userId/payment", postUserPayment);
-router.patch("/user/:userId/payment", updateUserPayment);
-router.delete("/user/:userId/payment", deleteUserPayment);
+router.post("/user/order/:orderId/create-payment-intent", postUserPayment);
 
 export default router;

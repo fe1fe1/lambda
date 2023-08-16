@@ -7,8 +7,6 @@ import paymentRouter from "./routes/payment-routes.js";
 import shippingRouter from "./routes/shipping-routes.js";
 import orderRouter from "./routes/order-routes.js";
 
-import devPaymentRouter from "./routes/dev/payment-dev-routes.js"
-
 dotenv.config();
 
 const app = express();
@@ -24,9 +22,6 @@ app.use("/api", userRouter);
 app.use("/api", paymentRouter);
 app.use("/api", shippingRouter);
 app.use("/api", orderRouter);
-
-// dev routes
-app.use("/api/dev", devPaymentRouter);
 
 // Stripe webhook
 app.post('/webhook', async (req, res) => {
