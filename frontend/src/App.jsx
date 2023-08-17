@@ -11,6 +11,7 @@ import Settings from "./pages/settings/Settings.jsx";
 import CheckoutShipping from "./pages/checkout-shipping/CheckoutShipping";
 import CheckoutPayment from "./pages/checkout-payment/CheckoutPayment";
 import CheckoutOrderInfo from "./pages/checkout-order-info/CheckoutOrderInfo";
+import UserOrdersList from "./pages/orders-list/user-orders-list/UserOrdersList";
 
 const App = () => {
     return (
@@ -29,8 +30,9 @@ const App = () => {
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/checkout-shipping" element={<CheckoutShipping />} />
                     <Route path="/checkout-payment" element={<CheckoutPayment />} />
-                    <Route path="/settings" element={<Settings />} />
-                    <Route path="/checkout-order-info" element={<CheckoutOrderInfo/>} />
+                    <Route path="/user-settings" element={<Settings />} />
+                    <Route path="/user-orders" element={<UserOrdersList />} />
+                    <Route path="/checkout-order-info" element={<CheckoutOrderInfo />} />
                 </Route>
             </Routes>
 

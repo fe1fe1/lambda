@@ -44,7 +44,8 @@ const Navbar = () => {
                             <div className="user-profile">
                                 <span className="profile-navbar-username">{name}</span>
                                 <div className="user-profile-dropdown">
-                                    <Link to="/settings">settings</Link>
+                                    <Link to="/user-settings">settings</Link>
+                                    <Link to="/user-orders">orders</Link>
                                     <button className="logout-button" onClick={handleLogut}>logout</button>
                                 </div>
                             </div>

@@ -4,7 +4,6 @@ import ProductCard from "../../components/peoduct-card/ProductCard.jsx";
 import "./Store.scss";
 
 const Store = () => {
-    //const [products, setProducts] = useState([]);
     const [filterPlatformValue, setFilterPlatformValue] = useState();
     const [filterTypeValue, setFilterTypeValue] = useState();
 
@@ -38,7 +37,7 @@ const Store = () => {
                 <div className="search-select">
                     <div className="custom-select">
                         <label>
-                            <p>Choose a product platform</p>
+                            <p>Filter by product platform</p>
                             <div className="select-container">
                                 <select onChange={platformSelectOnChange}>
                                     <option selected value="">
@@ -60,7 +59,7 @@ const Store = () => {
                     </div>
                     <div className="custom-select">
                         <label>
-                            <p>Choose a product type</p>
+                            <p>Filter by product type</p>
                             <div className="select-container">
                                 <select onChange={typeSelectOnChange}>
                                     <option selected value="">
