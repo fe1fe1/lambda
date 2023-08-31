@@ -1,5 +1,5 @@
 import "../InfoForms.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentShipping, setShipping } from "../../../features/shipping/shippingSlice";
 
@@ -79,4 +79,4 @@ const ShippingForm = (props) => {
     )
 }
 
-export default ShippingForm
+export default ShippingForm;

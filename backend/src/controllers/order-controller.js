@@ -17,12 +17,13 @@ const joinQuery = `SELECT purchase_order.id,
                           purchase_order.delivered_at
                    FROM purchase_order 
                    INNER JOIN user ON purchase_order.user_id=user.id
-                   INNER JOIN shipping ON purchase_order.user_id=shipping.user_id`;
+                   INNER JOIN shipping ON purchase_order.shipping_id=shipping.id`;
 
 export const getUserOrders = async (req, res) => {
     console.log("getting orders...");
 
     const userId = req.params.userId;
+    console.log("user id: ", userId);
 
     try {
         const [result] = await pool.query(

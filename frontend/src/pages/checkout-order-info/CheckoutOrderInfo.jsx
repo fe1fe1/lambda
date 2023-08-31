@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { emptyCart, selectCartItems } from "../../features/cart/cartSlice";
 import { usePostUserOrderMutation } from "../../features/orders/ordersApiSlice";
-import { postShipping, usePostShippingMutation } from "../../features/shipping/shippingApiSlice";
+import { usePostShippingMutation } from "../../features/shipping/shippingApiSlice";
 import { selectCurrentShipping, selectValidShipping } from "../../features/shipping/shippingSlice";
 import { selectCurrentUserId, selectCurrentUsername } from "../../features/user/userSlice";
 import "./CheckoutOrderInfo.scss"
