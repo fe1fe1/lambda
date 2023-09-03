@@ -1,9 +1,27 @@
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import { selectCurrentIsAdmin } from "../../features/user/userSlice";
 import "./OrderListElement.scss";
 
 const OrderListElement = (props) => {
     const isAdmin = useSelector(selectCurrentIsAdmin);
+    const navigate = useNavigate();
+
+    const handleFinishPayment = () =>{
+        console.log('click')
+        navigate('/checkout-payment', { 
+            state: { 
+                fromOrdersList: true, 
+                orderTotalPrice: props.order.total_price,
+                orderId: props.order.id
+            }
+        }); 
+    };
+
+    const handleCancelOrder = () =>{
+         
+    };
+
     return (
         <div className="order-list-element-container">
             <div>
@@ -40,7 +58,11 @@ const OrderListElement = (props) => {
                 isAdmin === 1 ? 
                 <div className="order-list-element-action">Set to Delivered</div>
                 :
-                props.order.is_paid === 0 && <div className="order-list-element-action">Finish Payment</div>  
+                props.order.is_paid === 0 && <div className="order-list-element-action" onClick={handleFinishPayment}>finish payment</div>  
+            }
+            {
+                (isAdmin === 1 || props.order.is_paid === 0) 
+                && <div className="order-list-element-action" onClick={handleCancelOrder}>cancel order</div>
             }
         </div>
     )

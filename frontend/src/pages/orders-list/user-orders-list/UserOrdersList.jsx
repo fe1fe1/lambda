@@ -27,9 +27,8 @@ const UserOrdersList = () => {
                     ) : (
                         isError ? (
                             <>
-                                <p>Error</p>
-                                <p>Message: {error.message}</p>
-                                {console.log('ERROR: ',error)}
+                                <p>Error: {error?.data?.message}</p>
+                                {console.log('ERROR: ',error?.data?.message)}
                             </>
                         ) : (
                             <p>Something went wrong</p>

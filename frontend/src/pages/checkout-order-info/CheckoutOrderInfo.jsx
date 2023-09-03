@@ -18,7 +18,7 @@ const CheckoutOrderInfo = () => {
     const orderItems = useSelector(selectCartItems);
     const validShipping = useSelector(selectValidShipping);
 
-    const fromCheckoutShipping = location.state && location.state.fromCheckoutShipping
+    const fromAuth = location.state && location.state.fromCheckoutShipping
 
     const [postShipping, shippingPostingResult] = usePostShippingMutation();
     const [postOrder, orderPostingResult] = usePostUserOrderMutation();
@@ -28,7 +28,7 @@ const CheckoutOrderInfo = () => {
 
     useEffect(() => {
         console.log(orderItems.length);
-        if(!fromCheckoutShipping){
+        if(!fromAuth){
             navigate('/cart');
         }
         if(orderItems.length<=0){
@@ -37,7 +37,7 @@ const CheckoutOrderInfo = () => {
         if(!validShipping){
             navigate('/checkout-shipping');
         }
-    }, [fromCheckoutShipping, validShipping, navigate])
+    }, [fromAuth, validShipping, navigate])
 
     const handleOnClick = async(e) =>{
         e.preventDefault();

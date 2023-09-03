@@ -27,17 +27,16 @@ const CheckoutPayment = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const fromCheckoutOrderInfo = location.state && location.state.fromCheckoutOrderInfo;
+    const fromAuth = location.state && (location.state.fromCheckoutOrderInfo || location.state.fromOrdersList);
     const orderTotalPrice = location?.state?.orderTotalPrice;
     const orderId = location?.state?.orderId;
 
     options.amount = orderTotalPrice;
 
     useEffect(() => {
-        if (!fromCheckoutOrderInfo)
+        if (!fromAuth)
             navigate('/cart');
-    }, [fromCheckoutOrderInfo, navigate])
-
+    }, [fromAuth, navigate])
 
     return (
         <div>

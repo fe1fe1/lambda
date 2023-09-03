@@ -1,11 +1,14 @@
 import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router";
+import { usePayUserOrderMutation } from "../../../features/orders/ordersApiSlice";
 import "../InfoForms.scss";
 
 const PaymentForm = (props) => {
     const stripe = useStripe();
     const elements = useElements();
     const navigate = useNavigate();
+
+    const [ payOrder, { isLoading }] = usePayUserOrderMutation();
 
     const handleSubmit = async (e) =>{
         e.preventDefault(); 
@@ -25,30 +28,38 @@ const PaymentForm = (props) => {
             console.log("payment method creation error: ",error);    
             return;
         }
-        const res = await fetch(`http://localhost:5000/api/user/order/${props.orderId}/create-payment-intent`,{
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({
-                paymentMethodId: paymentMethod.id,
-                paymentAmount: props.paymentAmount,
-            }),
-        });
 
-        const data = await res.json();
-        console.log("data :", data);
+        
 
-        if (data?.status === "succeeded"){
+
+
+        console.log('PARAMS: ',props.orderId, paymentMethod.id, props.paymentAmount);
+
+        const paymentResponse = await payOrder({ 
+            orderId: props.orderId, 
+            paymentMethodId: paymentMethod.id, 
+            paymentAmount: props.paymentAmount 
+        }).unwrap();
+        
+        if (paymentResponse?.status === "succeeded"){
             navigate("/"); 
         }
+
     };
         
     return (
         <form className="checkout-form block-container" onSubmit={handleSubmit}>
             <h3>Payment</h3>
-            <PaymentElement/>
-            <div className="submit-container" style={{padding:'1rem'}}>
-                <button className="btn" disabled={!stripe}>Pay and Finish</button>
-            </div>
+            { isLoading ? 
+                <p>Sending Payment...</p> 
+                : 
+                <>
+                    <PaymentElement/>
+                    <div className="submit-container" style={{padding:'1rem'}}>
+                        <button className="btn" disabled={!stripe}>Pay and Finish</button>
+                    </div>
+                </>
+            }
         </form>
     )
 }
