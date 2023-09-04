@@ -121,7 +121,8 @@ export const deleteUserOrder = async (req, res) => {
         if (result.length <= 0) {
             return res.status(404).json({ message: `Order not found` });
         }
-        console.log("success");
+        console.log("success", result);
+        res.sendStatus(200);
     } catch (error) {
         res.status(500).json({ message: "Something went wrong", error: error });
     }

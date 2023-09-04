@@ -1,11 +1,14 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { useCancelUserOrderMutation } from "../../features/orders/ordersApiSlice";
 import { selectCurrentIsAdmin } from "../../features/user/userSlice";
 import "./OrderListElement.scss";
 
 const OrderListElement = (props) => {
     const isAdmin = useSelector(selectCurrentIsAdmin);
     const navigate = useNavigate();
+
+    const [ cancelOrder, { isLoading } ] = useCancelUserOrderMutation();
 
     const handleFinishPayment = () =>{
         console.log('click')
@@ -19,7 +22,7 @@ const OrderListElement = (props) => {
     };
 
     const handleCancelOrder = () =>{
-         
+        cancelOrder(props.order.id); 
     };
 
     return (
@@ -62,7 +65,11 @@ const OrderListElement = (props) => {
             }
             {
                 (isAdmin === 1 || props.order.is_paid === 0) 
-                && <div className="order-list-element-action" onClick={handleCancelOrder}>cancel order</div>
+                && ( isLoading ?
+                    <p>Loading...</p>
+                    :
+                    <div className="order-list-element-action" onClick={handleCancelOrder}>cancel order</div>
+                )
             }
         </div>
     )
