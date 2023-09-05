@@ -31,7 +31,7 @@ const Cart = () => {
     console.log(items);
 
     return (
-        <div className="cart-container">
+        <div className="cart-container navbar-margin">
             <div className="block-container">
                     <ul className="cart-items-list">
                         <li>

@@ -44,7 +44,7 @@ const Login = () => {
         navigate("/")
 
     return (
-        <div className="login-container">
+        <div className="login-container navbar-margin">
             {isLoading ? (<h1>Loading</h1>):(
                 <form className="block-container user-form" onSubmit={handleSubmit}>
                     <div className="user-form-element user-form-header">

@@ -19,7 +19,7 @@ const CheckoutShipping = () => {
     };
 
     return (
-        <div>
+        <div className="navbar-margin">
             <ShippingForm onSubmit={handleShippingSubmit}/> 
         </div>
     )

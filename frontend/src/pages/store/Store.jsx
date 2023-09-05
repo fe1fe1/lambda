@@ -32,7 +32,7 @@ const Store = () => {
     };
 
     return (
-        <div className="store-container">
+        <div className="store-container navbar-margin">
             <div className="sidebar-search-container">
                 <div className="search-select">
                     <div className="custom-select">

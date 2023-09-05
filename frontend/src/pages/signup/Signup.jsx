@@ -47,7 +47,7 @@ const Signup = () => {
     }
 
     return (
-        <div className="signup-container">
+        <div className="signup-container navbar-margin">
             {signupResult.isLoading? (<h1>loading</h1>):(
                 signinResult.isLoading? (<h1>loading</h1>):(
                     <form className="block-container user-form" onSubmit={handleSubmit}>

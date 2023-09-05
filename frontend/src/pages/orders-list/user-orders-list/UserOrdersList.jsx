@@ -15,7 +15,7 @@ const UserOrdersList = () => {
     } = useGetUserOrdersQuery(userId);
     console.log(orders);
     return (
-        <div className="orders-list-container">
+        <div className="orders-list-container navbar-margin">
             <ul className="orders-list"> 
                 {
                     isSuccess ? (

@@ -39,7 +39,7 @@ const CheckoutPayment = () => {
     }, [fromAuth, navigate])
 
     return (
-        <div>
+        <div className="navbar-margin">
             <Elements stripe={stripePromise} options={options}>
                 <PaymentForm paymentAmount={orderTotalPrice} orderId={orderId}/> 
             </Elements>

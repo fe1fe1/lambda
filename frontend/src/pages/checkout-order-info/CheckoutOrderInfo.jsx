@@ -58,7 +58,7 @@ const CheckoutOrderInfo = () => {
     };
 
     return (
-        <div className="block-container order-info-container">
+        <div className="block-container order-info-container navbar-margin">
             <div className="row">
                 <div className="col-75">
                     <div className="order-info-block shipping-info">
