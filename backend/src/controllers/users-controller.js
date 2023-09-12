@@ -15,12 +15,13 @@ export const registerUser = async (req, res) => {
         `SELECT * FROM ${usersTable} WHERE name=? or email=?`,
         [username, email]
     );
-    console.log(duplicate);
 
-    if (duplicate.length > 0)
+    if (duplicate.length > 0) {
+        console.log(duplicate);
         return res
             .status(409)
             .json({ message: "Duplicate username and/or email" });
+    }
 
     try {
         const hashedPwd = await hash(password);
@@ -30,7 +31,7 @@ export const registerUser = async (req, res) => {
             [username, email, hashedPwd]
         );
 
-        console.log(result);
+        console.log('REGISTER RESULTS: ', result);
         console.log("success");
         res.json({ id: result.insertId, username, email });
     } catch (error) {
@@ -46,8 +47,8 @@ export const loginUser = async (req, res) => {
             `SELECT * FROM ${usersTable} WHERE email=?`,
             [req.body.email]
         );
-        console.log(req.body);
-        console.log(userData);
+        console.log('LOGIN REQUEST BODY: ', req.body);
+        console.log('USER FOUND BY EMAIL: ', userData);
         const user = userData[0];
 
         if (!user)

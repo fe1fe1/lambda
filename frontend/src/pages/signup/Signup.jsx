@@ -22,9 +22,9 @@ const Signup = () => {
         e.preventDefault();
        
         try {
-            const registeredUser = await signup({username,email,password}).unwrap();
-            const signinUser = await login({...registeredUser}).unwrap();
-            dispatch(setCredentials({ ...signinUser}));
+            const registeredUser = await signup({ username,email,password }).unwrap();
+            const signinUser = await login({ email, password }).unwrap();
+            dispatch(setCredentials({ ...signinUser }));
             setUsername('');
             setEmail('');
             setPassword('');

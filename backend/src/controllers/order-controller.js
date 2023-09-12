@@ -19,6 +19,20 @@ const joinQuery = `SELECT purchase_order.id,
                    INNER JOIN user ON purchase_order.user_id=user.id
                    INNER JOIN shipping ON purchase_order.shipping_id=shipping.id`;
 
+export const getAllOrders = async (req, res) => {
+    console.log("getting all orders");
+    try {
+        const [result] = await pool.query(
+            `${joinQuery}`,
+        );
+        console.log(result);
+        res.send(result);
+    } catch (error) {
+        res.status(500).json({ message: "Something went wrong", error: error });
+        console.log(error);
+    }
+};
+
 export const getUserOrders = async (req, res) => {
     console.log("getting orders...");
 

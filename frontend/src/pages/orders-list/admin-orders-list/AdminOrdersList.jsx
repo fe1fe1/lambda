@@ -1,11 +1,11 @@
-import "../OrdersList.scss";
+import "../OrdersList.scss"
 import { useGetUserOrdersQuery } from "../../../features/orders/ordersApiSlice";
 import OrderListElement from "../../../components/order-list-element/OrderListElement";
 import { useSelector } from "react-redux";
 import { selectCurrentIsAdmin, selectCurrentUserId } from "../../../features/user/userSlice";
 
 
-const UserOrdersList = () => {
+const AdminOrdersList = () => {
     const userId = useSelector(selectCurrentUserId);
     const isUserAdmin = useSelector(selectCurrentIsAdmin);
     const { data: orders,
@@ -45,4 +45,4 @@ const UserOrdersList = () => {
     )
 }
 
-export default UserOrdersList;
+export default AdminOrdersList;

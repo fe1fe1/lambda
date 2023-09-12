@@ -4,19 +4,19 @@ import { apiSlice } from "../api/apiSlice";
 export const ordersApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getUserOrders: builder.query({
-            query: userId => `/user/${userId}/orders`,
+            query: userId => `/orders/${userId}`,
             providesTags: ['Order'],
         }),
         postUserOrder: builder.mutation({
             query: ({ userId, shippingId, orderItems }) => ({
-                url: `/user/${userId}/order`,
+                url: `/order/${userId}`,
                 method: 'POST',
                 body: { shippingId, orderItems },
             }),
         }),
         payUserOrder: builder.mutation({
             query: ({ orderId, paymentMethodId, paymentAmount }) => ({
-                url: `/user/order/${orderId}/create-payment-intent`,
+                url: `/payment/${orderId}/create-payment-intent`,
                 method: 'POST',
                 body: { paymentMethodId, paymentAmount },
             }),
@@ -24,7 +24,7 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
         }),
         cancelUserOrder: builder.mutation({
             query: (orderId) => ({
-                url: `/user/order/${orderId}`,
+                url: `/order/${orderId}`,
                 method: 'DELETE',
             }),
             invalidatesTags: ['Order'],

@@ -3,6 +3,6 @@ import { postUserPayment } from "../controllers/payment-controller.js";
 
 const router = Router();
 
-router.post("/user/order/:orderId/create-payment-intent", postUserPayment);
+router.post("/payment/:orderId/create-payment-intent", postUserPayment);
 
 export default router;

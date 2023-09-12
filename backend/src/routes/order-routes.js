@@ -3,14 +3,16 @@ import {
     getUserOrders,
     getUserOrder,
     postUserOrder,
-    deleteUserOrder
+    deleteUserOrder,
+    getAllOrders
 } from "../controllers/order-controller.js";
 
 const router = Router();
 
-router.get("/user/:userId/orders", getUserOrders);
-router.get("/user/order/:orderId", getUserOrder);
-router.post("/user/:userId/order", postUserOrder);
-router.delete("/user/order/:orderId", deleteUserOrder);
+router.get("/orders", getAllOrders);
+router.get("/orders/:userId", getUserOrders);
+router.get("/order/:orderId", getUserOrder);
+router.post("/order/:userId", postUserOrder);
+router.delete("/order/:orderId", deleteUserOrder);
 
 export default router;
