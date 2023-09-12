@@ -32,11 +32,11 @@ export const postUserPayment = async (req, res) => {
 
         console.log(paymentIntent);
 
-        if(paymentIntent?.status === "succeeded"){
+        if (paymentIntent?.status === "succeeded") {
             const [updateOrderPayment] = await pool.query(
-                `UPDATE purchase_order SET paid_at=now(), is_paid=1 WHERE id=?`,[orderId]
-            ); 
-            console.log('PATMENT UPDATE: ',updateOrderPayment);
+                `UPDATE purchase_order SET paid_at=now(), is_paid=1, stripe_payment_id=? WHERE id=?`, [paymentIntent.id, orderId]
+            );
+            console.log('PATMENT UPDATE: ', updateOrderPayment);
         }
 
         res.send({

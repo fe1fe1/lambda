@@ -1,19 +1,17 @@
 import "../OrdersList.scss"
-import { useGetUserOrdersQuery } from "../../../features/orders/ordersApiSlice";
+import { useGetOrdersQuery } from "../../../features/orders/ordersApiSlice";
 import OrderListElement from "../../../components/order-list-element/OrderListElement";
 import { useSelector } from "react-redux";
-import { selectCurrentIsAdmin, selectCurrentUserId } from "../../../features/user/userSlice";
+import { selectCurrentUserId } from "../../../features/user/userSlice";
 
 
 const AdminOrdersList = () => {
-    const userId = useSelector(selectCurrentUserId);
-    const isUserAdmin = useSelector(selectCurrentIsAdmin);
     const { data: orders,
             isLoading,
             isSuccess,
             isError,
             error
-        } = useGetUserOrdersQuery(userId);
+        } = useGetOrdersQuery();
     console.log(orders);
     return (
         <div className="orders-list-container navbar-margin">

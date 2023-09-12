@@ -3,12 +3,13 @@ import "./Navbar.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { logOut, selectCurrentToken, selectCurrentUsername } from "../../features/user/userSlice";
+import { logOut, selectCurrentIsAdmin, selectCurrentToken, selectCurrentUsername } from "../../features/user/userSlice";
 import { emptyCart } from "../../features/cart/cartSlice";
 const Navbar = () => {
 
-    const name = useSelector(selectCurrentUsername)
-    const token = useSelector(selectCurrentToken)
+    const name = useSelector(selectCurrentUsername);
+    const isAdmin = useSelector(selectCurrentIsAdmin);
+    const token = useSelector(selectCurrentToken);
     const dispatch = useDispatch();
 
     const handleLogut = () => {
@@ -45,7 +46,12 @@ const Navbar = () => {
                                 <span className="profile-navbar-username">{name}</span>
                                 <div className="user-profile-dropdown">
                                     <Link to="/user-settings">settings</Link>
-                                    <Link to="/user-orders">orders</Link>
+                                    {
+                                        isAdmin === 0 ?
+                                        <Link to="/user-orders">orders</Link>
+                                        :
+                                        <Link to="/admin-orders">orders</Link>
+                                    }
                                     <button className="logout-button" onClick={handleLogut}>logout</button>
                                 </div>
                             </div>

@@ -3,6 +3,10 @@ import { apiSlice } from "../api/apiSlice";
 
 export const ordersApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
+        getOrders: builder.query({
+            query: () => `/orders`,
+            providesTags: ['Order'],
+        }),
         getUserOrders: builder.query({
             query: userId => `/orders/${userId}`,
             providesTags: ['Order'],
@@ -34,6 +38,7 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
+    useGetOrdersQuery,
     useGetUserOrdersQuery,
     usePostUserOrderMutation,
     usePayUserOrderMutation,

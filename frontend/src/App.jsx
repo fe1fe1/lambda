@@ -12,6 +12,7 @@ import CheckoutShipping from "./pages/checkout-shipping/CheckoutShipping";
 import CheckoutPayment from "./pages/checkout-payment/CheckoutPayment";
 import CheckoutOrderInfo from "./pages/checkout-order-info/CheckoutOrderInfo";
 import UserOrdersList from "./pages/orders-list/user-orders-list/UserOrdersList";
+import AdminOrdersList from "./pages/orders-list/admin-orders-list/AdminOrdersList";
 
 const App = () => {
     return (
@@ -32,6 +33,7 @@ const App = () => {
                     <Route path="/checkout-payment" element={<CheckoutPayment />} />
                     <Route path="/user-settings" element={<Settings />} />
                     <Route path="/user-orders" element={<UserOrdersList />} />
+                    <Route path="/admin-orders" element={<AdminOrdersList />} />
                     <Route path="/checkout-order-info" element={<CheckoutOrderInfo />} />
                 </Route>
             </Routes>
