@@ -8,8 +8,13 @@
 }
 body {
     background-color: #ebebeb !important;
-    height: 2000px;
     min-height: calc(100vh - 40px);
+    .App{
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
     //----------------------------------------------------------------//
     // global elements styles
     .navbar-margin {

@@ -4,13 +4,12 @@
     margin: 0;
     .hero-bg {
         background-image: url(https://cdn.mos.cms.futurecdn.net/f20f65c063facc99be6da2d1174a281a.jpg);
-        height: 150%;
+        height: 125vh;
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
         background-attachment: fixed;
         padding-top: 0;
-        position: absolute;
         width: 100%;
         z-index: 1;
         margin: auto;
@@ -28,9 +27,12 @@
         }
     }
     .main-section {
-        top: 125vh;
+        top: -25vh;
         width: 100%;
         position: relative;
         z-index: 2;
+        .cards-section{
+            margin-top: 5rem;
+        };
     }
 }

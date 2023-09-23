@@ -14,6 +14,10 @@ const Home = () => {
                 <div className="carousel w-50 mx-auto">
                     <HomeCarousel />
                 </div>
+                <div className="block-container cards-section">
+                    test 
+                </div>
+
             </div>
         </div>
     );

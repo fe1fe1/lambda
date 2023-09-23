@@ -17,10 +17,9 @@ const HomeCarousel = () => {
 
                     <Carousel.Caption>
                         <div className="caption-container">
-                            <h3>Second slide label</h3>
+                            <h3>Wii</h3>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.
+                                The new console from Nintendo is available now!
                             </p>
                         </div>
                     </Carousel.Caption>
@@ -36,10 +35,9 @@ const HomeCarousel = () => {
                     </div>
                     <Carousel.Caption>
                         <div className="caption-container">
-                            <h3>First slide label</h3>
+                            <h3>PlayStation 3</h3>
                             <p>
-                                Nulla vitae elit libero, a pharetra augue mollis
-                                interdum.
+                                All the power of the new generation in a slick new design!
                             </p>
                         </div>
                     </Carousel.Caption>
@@ -55,10 +53,9 @@ const HomeCarousel = () => {
 
                     <Carousel.Caption>
                         <div className="caption-container">
-                            <h3>Second slide label</h3>
+                            <h3>Xbox 360</h3>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.
+                                The successor of the first Xbox, a stronger, faster, next gen console!
                             </p>
                         </div>
                     </Carousel.Caption>
