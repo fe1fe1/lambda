@@ -31,8 +31,25 @@
         width: 100%;
         position: relative;
         z-index: 2;
-        .cards-section{
-            margin-top: 5rem;
-        };
+        .snippets {
+            max-width: 70%;
+            margin: 5rem auto;
+            padding: 5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            & > * {
+                max-width: min-content;
+                word-break: break-all;
+                p {
+                    margin: 1rem 0;
+                }
+            }
+        }
+        .show-me-section {
+            margin: 0 auto;
+            padding: 3rem;
+            max-width: 80%;
+        }
     }
 }
