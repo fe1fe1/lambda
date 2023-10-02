@@ -1,10 +1,40 @@
 .login-container {
     display: flex;
-    .login-create-acc {
-        text-decoration: none;
-        color: var(--main-color);
-        &:hover {
-            text-decoration: underline;
+    justify-content: center;
+    align-items: center;
+    .login-form {
+        margin: 5rem 0;
+        margin-left: 18rem;
+        .login-create-acc {
+            text-decoration: none;
+            color: var(--main-color);
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .suggestion {
+        background-color: var(--main-color);
+        padding: 2rem;
+        margin: auto 2rem;
+        max-width: 18rem;
+        .suggestion-text {
+            .suggestion-icon {
+                margin-right: 0.5rem;
+            }
+        }
+        .suggestion-button {
+            color: black;
+            background-color: transparent;
+            border-style: solid;
+            border-color: black;
+            transition: ease-out 0.3s;
+            &:hover {
+                box-shadow: inset 300px 0px 0px 0px black;
+                color: white;
+                cursor: pointer;
+            }
         }
     }
 }

@@ -9,7 +9,7 @@
 body {
     background-color: #ebebeb !important;
     min-height: calc(100vh - 40px);
-    .App{
+    .App {
         min-height: 100vh;
         display: flex;
         flex-direction: column;
@@ -65,31 +65,31 @@ body {
         display: flex;
         flex-wrap: wrap;
     }
-    
+
     .col-25 {
         flex: 25%;
     }
-    
+
     .col-50 {
         flex: 50%;
     }
-    
+
     .col-75 {
         flex: 75%;
     }
-    
+
     .col-25,
     .col-50,
     .col-75 {
         padding: 0 1rem;
     }
-    .checkout-button{
+    .checkout-button {
         color: black;
         background-color: transparent;
         border-style: solid;
         border-color: black;
         transition: ease-out 0.3s;
-        &:hover{
+        &:hover {
             box-shadow: inset 300px 0px 0px 0px var(--main-color);
             color: white;
             border-color: var(--main-color);
@@ -98,10 +98,10 @@ body {
     }
 }
 
-::selection{
+::selection {
     background: var(--main-color);
 }
 
-input:focus{
+input:focus {
     outline-color: var(--main-color);
 }

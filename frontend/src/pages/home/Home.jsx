@@ -5,10 +5,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { useNavigate } from "react-router";
 import HomeCarousel from "../../components/carousel/Carousel";
 import "./Home.scss";
 
 const Home = () => {
+    const navigate = useNavigate();
+
+    const handleShowMeOnClick = () => {
+        navigate("/store");
+    };
+
     return (
         <div className="hero-container">
             <div className="hero-bg">
@@ -55,7 +62,21 @@ const Home = () => {
                         <p>We provide a wide variety of payment methods.</p>
                     </div>
                 </div>
-                <div className="block-container show-me-section">test</div>
+                <div className="block-container show-me-section">
+                    <div className="show-me-text">
+                        <h1>Want To Knoe More?</h1>
+                        <p>
+                            Check out our store! We have incredible products
+                            from the latest and greatest gaming tech!
+                        </p>
+                    </div>
+                    <button
+                        className="checkout-button"
+                        onClick={handleShowMeOnClick}
+                    >
+                        Show Me!
+                    </button>
+                </div>
             </div>
         </div>
     );

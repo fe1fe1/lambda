@@ -47,9 +47,18 @@
             }
         }
         .show-me-section {
+            display: flex;
+            flex-direction: column;
             margin: 0 auto;
             padding: 3rem;
             max-width: 80%;
+            p {
+                font-weight: bold;
+                text-align: center;
+            }
+            button {
+                margin: 0 auto;
+            }
         }
     }
 }

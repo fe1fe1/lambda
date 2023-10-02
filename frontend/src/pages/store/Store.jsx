@@ -80,26 +80,21 @@ const Store = () => {
             </div>
             <div className="product-list-container">
                 <div className="products">
-                    {
-                        isLoading ? (<p>Loading...</p>) 
-                        : (
-                            isSuccess ? (
-                                products
-                                    .filter(compareFilterValues)
-                                    .map((product) => <ProductCard product={product} />)
-                            ) : (
-                                isError ? (
-                                    <div>
-                                        <p>Message: {error.message}</p>
-                                        <p>{error.stack}</p>
-                                        {console.log(error)}
-                                    </div>
-                                ) : (
-                                    <p>something went wrong</p>
-                                )
-                            )
-                        )
-                    }
+                    {isLoading ? (
+                        <p>Loading...</p>
+                    ) : isSuccess ? (
+                        products
+                            .filter(compareFilterValues)
+                            .map((product) => <ProductCard product={product} />)
+                    ) : isError ? (
+                        <div>
+                            <p>Message: [{error.data.message}]</p>
+                            <p>{error.stack}</p>
+                            {console.log(error)}
+                        </div>
+                    ) : (
+                        <p>something went wrong</p>
+                    )}
                 </div>
             </div>
         </div>
