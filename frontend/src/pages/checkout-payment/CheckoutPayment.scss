@@ -1,0 +1,29 @@
+.payment-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 30rem;
+    .suggestion {
+        background-color: var(--main-color);
+        padding: 2rem;
+        margin: auto 2rem;
+        max-width: 30rem;
+        .suggestion-text {
+            .suggestion-icon {
+                margin-right: 0.5rem;
+            }
+        }
+        .suggestion-button {
+            color: black;
+            background-color: transparent;
+            border-style: solid;
+            border-color: black;
+            transition: ease-out 0.3s;
+            &:hover {
+                box-shadow: inset 300px 0px 0px 0px black;
+                color: white;
+                cursor: pointer;
+            }
+        }
+    }
+}

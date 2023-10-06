@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
     reducerPath: "api",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:5000/api",
+        baseUrl: "https://lambda-project-api.com",
         prepareHeaders: (headers, { getState }) => {
             const token = getState().user.token;
             if (token) {
@@ -12,7 +12,6 @@ export const apiSlice = createApi({
             return headers;
         },
     }),
-    tagTypes: ['Product', 'User', 'Order'],
-    endpoints: builder => ({})
+    tagTypes: ["Product", "User", "Order"],
+    endpoints: (builder) => ({}),
 });
-

@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [errMsg, setErrMsg] = useState("");
+    const [setErrMsg] = useState("");
     const navigate = useNavigate();
 
     const [login, { isLoading }] = useLoginMutation();

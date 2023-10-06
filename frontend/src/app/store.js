@@ -1,9 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "../features/api/apiSlice";
-import userReducer from "../features/user/userSlice.js"
-import cartReducer from "../features/cart/cartSlice.js"
-import shippingReducer from "../features/shipping/shippingSlice.js"
-
+import userReducer from "../features/user/userSlice.js";
+import cartReducer from "../features/cart/cartSlice.js";
+import shippingReducer from "../features/shipping/shippingSlice.js";
 
 export const store = configureStore({
     reducer: {
@@ -14,5 +13,5 @@ export const store = configureStore({
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(apiSlice.middleware),
-    devTools: true,
+    devTools: false,
 });
