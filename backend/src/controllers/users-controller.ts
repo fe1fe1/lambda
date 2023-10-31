@@ -1,17 +1,18 @@
+import { RequestHandler } from "express";
 import { pool } from "../db.js";
 import { createUserToken, hash, match } from "../utils.js";
 
 const usersTable = "user";
 
-export const registerUser = async (req, res) => {
+export const registerUser: RequestHandler = async (req, res) => {
     console.log("posting user...");
     const { username, email, password } = req.body;
     if (!username || !email || !password)
-        return res
-            .status(409)
-            .json({ message: "Username, email and password fields are required" });
+        return res.status(409).json({
+            message: "Username, email and password fields are required",
+        });
 
-    const [duplicate] = await pool.query(
+    const [duplicate]: any[] = await pool.query(
         `SELECT * FROM ${usersTable} WHERE name=? or email=?`,
         [username, email]
     );
@@ -26,12 +27,12 @@ export const registerUser = async (req, res) => {
     try {
         const hashedPwd = await hash(password);
 
-        const [result] = await pool.query(
+        const [result]: any[] = await pool.query(
             `INSERT INTO ${usersTable} (name, email, password) VALUES (?, ?, ?)`,
             [username, email, hashedPwd]
         );
 
-        console.log('REGISTER RESULTS: ', result);
+        console.log("REGISTER RESULTS: ", result);
         console.log("success");
         res.json({ id: result.insertId, username, email });
     } catch (error) {
@@ -40,34 +41,36 @@ export const registerUser = async (req, res) => {
     }
 };
 
-export const loginUser = async (req, res) => {
+export const loginUser: RequestHandler = async (req, res) => {
     console.log("authenticating user...");
     try {
-        const [userData] = await pool.query(
+        const [userData]: any[] = await pool.query(
             `SELECT * FROM ${usersTable} WHERE email=?`,
             [req.body.email]
         );
-        console.log('LOGIN REQUEST BODY: ', req.body);
-        console.log('USER FOUND BY EMAIL: ', userData);
-        const user = userData[0];
+        console.log("LOGIN REQUEST BODY: ", req.body);
+        console.log("USER FOUND BY EMAIL: ", userData);
+        const user: any = userData[0];
 
         if (!user)
             return res.status(401).json({ message: "Invalid credentials" });
 
-        const matched = await match(
-            req.body.password,
-            user.password
-        );
+        const matched = await match(req.body.password, user.password);
 
         if (matched) {
-            const token = createUserToken(user.id, user.name, user.email, user.is_admin)
+            const token = createUserToken(
+                user.id,
+                user.name,
+                user.email,
+                user.is_admin
+            );
             console.log("success");
             res.send({
                 id: user.id,
                 name: user.name,
                 email: user.email,
                 is_admin: user.is_admin,
-                token: token
+                token: token,
             });
         } else {
             res.status(401).json({ message: "Unauthorized" });

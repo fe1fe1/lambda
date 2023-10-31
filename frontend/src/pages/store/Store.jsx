@@ -88,7 +88,7 @@ const Store = () => {
                             .map((product) => <ProductCard product={product} />)
                     ) : isError ? (
                         <div>
-                            <p>Message: [{error.data.message}]</p>
+                            <p>Message: [{error?.data?.message}]</p>
                             <p>{error.stack}</p>
                             {console.log(error)}
                         </div>

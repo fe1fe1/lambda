@@ -1,5 +1,11 @@
 import { pool } from "../db.js";
 import { handleOrderPrice } from "../handlers/order-handlers.js";
+import { Request, Response } from "express";
+
+type Item = {
+    id: number;
+    quantity: number;
+};
 
 const joinQuery = `SELECT purchase_order.id,
                           user.name,
@@ -19,7 +25,7 @@ const joinQuery = `SELECT purchase_order.id,
                    INNER JOIN user ON purchase_order.user_id=user.id
                    INNER JOIN shipping ON purchase_order.shipping_id=shipping.id`;
 
-export const getAllOrders = async (req, res) => {
+export const getAllOrders = async (req: Request, res: Response) => {
     console.log("getting all orders");
     try {
         const [result] = await pool.query(`${joinQuery}`);
@@ -31,14 +37,14 @@ export const getAllOrders = async (req, res) => {
     }
 };
 
-export const getUserOrders = async (req, res) => {
+export const getUserOrders = async (req: Request, res: Response) => {
     console.log("getting orders...");
 
     const userId = req.params.userId;
     console.log("user id: ", userId);
 
     try {
-        const [result] = await pool.query(
+        const [result]: any[] = await pool.query(
             `${joinQuery} WHERE purchase_order.user_id=?`,
             [userId]
         );
@@ -54,13 +60,13 @@ export const getUserOrders = async (req, res) => {
     }
 };
 
-export const getUserOrder = async (req, res) => {
+export const getUserOrder = async (req: Request, res: Response) => {
     console.log("getting order...");
 
     const orderId = req.params.orderId;
 
     try {
-        const [result] = await pool.query(
+        const [result]: any[] = await pool.query(
             `${joinQuery} WHERE purchase_order.id=?`,
             [orderId]
         );
@@ -78,7 +84,7 @@ export const getUserOrder = async (req, res) => {
     }
 };
 
-export const postUserOrder = async (req, res) => {
+export const postUserOrder = async (req: Request, res: Response) => {
     console.log("posting order...");
     console.log("****REQUEST BODY****: ", req.body);
 
@@ -96,7 +102,7 @@ export const postUserOrder = async (req, res) => {
         const { itemsPrice, shippingPrice, totalPrice } =
             await handleOrderPrice(orderItems);
 
-        const [orderResult] = await pool.query(
+        const [orderResult]: any[] = await pool.query(
             `
                     INSERT INTO purchase_order 
                     (user_id,shipping_id,items_price,shipping_price,total_price,created_at)
@@ -104,7 +110,7 @@ export const postUserOrder = async (req, res) => {
             [[userId, shippingId, itemsPrice, shippingPrice, totalPrice]]
         );
 
-        const orderItemsArray = orderItems.map((item) => [
+        const orderItemsArray = orderItems.map((item: Item) => [
             orderResult.insertId,
             item.id,
             item.quantity,
@@ -125,10 +131,10 @@ export const postUserOrder = async (req, res) => {
     }
 };
 
-export const deleteUserOrder = async (req, res) => {
+export const deleteUserOrder = async (req: Request, res: Response) => {
     console.log("deleting order... ", req.params.orderId);
     try {
-        const [result] = await pool.query(
+        const [result]: any[] = await pool.query(
             `DELETE FROM purchase_order WHERE id=?`,
             [req.params.orderId]
         );
