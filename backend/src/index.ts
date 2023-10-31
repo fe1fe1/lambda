@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import productRouter from "./routes/product-routes.js";
@@ -24,14 +24,14 @@ app.use("/api", shippingRouter);
 app.use("/api", orderRouter);
 
 // Stripe webhook
-app.post('/webhook', async (req, res) => {
+app.post("/webhook", async (req, res) => {
     let data, eventType;
 
     // Check if webhook signing is configured.
     if (process.env.STRIPE_WEBHOOK_SECRET) {
         // Retrieve the event by verifying the signature using the raw body and secret.
         let event;
-        let signature = req.headers['stripe-signature'];
+        let signature = req.headers["stripe-signature"];
         try {
             event = stripe.webhooks.constructEvent(
                 req.rawBody,
@@ -51,13 +51,13 @@ app.post('/webhook', async (req, res) => {
         eventType = req.body.type;
     }
 
-    if (eventType === 'payment_intent.succeeded') {
+    if (eventType === "payment_intent.succeeded") {
         // Funds have been captured
         // Fulfill any orders, e-mail receipts, etc
         // To cancel the payment after capture you will need to issue a Refund (https://stripe.com/docs/api/refunds)
-        console.log('💰 Payment captured!');
-    } else if (eventType === 'payment_intent.payment_failed') {
-        console.log('❌ Payment failed.');
+        console.log("💰 Payment captured!");
+    } else if (eventType === "payment_intent.payment_failed") {
+        console.log("❌ Payment failed.");
     }
     res.sendStatus(200);
 });

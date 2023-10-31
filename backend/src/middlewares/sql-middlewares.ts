@@ -10,10 +10,13 @@ export const getAllResources = (table) => {
             res.send(result);
             next();
         } catch (error) {
-            res.status(500).json({ message: "500: Something went wrong", error: error });
+            res.status(500).json({
+                message: "500: Something went wrong",
+                error: error,
+            });
             next(error);
         }
-    }
+    };
 };
 
 export const getResourceById = (table) => {
@@ -25,17 +28,22 @@ export const getResourceById = (table) => {
                 [req.params.id]
             );
             if (result.length <= 0) {
-                return res.status(404).json({ message: `Resource not found in: ${table}` });
+                return res
+                    .status(404)
+                    .json({ message: `Resource not found in: ${table}` });
             }
             console.log(result);
             console.log("success");
             res.send(result);
-            next()
+            next();
         } catch (error) {
-            res.status(500).json({ message: "Something went wrong", error: error });
+            res.status(500).json({
+                message: "Something went wrong",
+                error: error,
+            });
             next(error);
         }
-    }
+    };
 };
 
 export const deleteResourceById = (table) => {
@@ -47,14 +55,19 @@ export const deleteResourceById = (table) => {
                 [req.params.id]
             );
             if (result.length <= 0) {
-                return res.status(404).json({ message: `Resource not found in: ${table}` });
+                return res
+                    .status(404)
+                    .json({ message: `Resource not found in: ${table}` });
             }
             console.log("success");
             res.sendStatus(204);
-            next()
+            next();
         } catch (error) {
-            res.status(500).json({ message: "Something went wrong", error: error });
+            res.status(500).json({
+                message: "Something went wrong",
+                error: error,
+            });
             next(error);
         }
-    }
+    };
 };
