@@ -14,9 +14,9 @@ export const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, func
     console.log("posting user...");
     const { username, email, password } = req.body;
     if (!username || !email || !password)
-        return res
-            .status(409)
-            .json({ message: "Username, email and password fields are required" });
+        return res.status(409).json({
+            message: "Username, email and password fields are required",
+        });
     const [duplicate] = yield pool.query(`SELECT * FROM ${usersTable} WHERE name=? or email=?`, [username, email]);
     if (duplicate.length > 0) {
         console.log(duplicate);
@@ -26,10 +26,10 @@ export const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, func
     }
     try {
         const hashedPwd = yield hash(password);
-        const [result] = yield pool.query(`INSERT INTO ${usersTable} (name, email, password) VALUES (?, ?, ?)`, [username, email, hashedPwd]);
-        console.log('REGISTER RESULTS: ', result);
+        const result = yield pool.query(`INSERT INTO ${usersTable} (name, email, password) VALUES (?, ?, ?)`, [username, email, hashedPwd]);
+        console.log("REGISTER RESULTS: ", result);
         console.log("success");
-        res.json({ id: result.insertId, username, email });
+        res.json({ id: result[0], username, email });
     }
     catch (error) {
         res.status(404).json({ message: "Something went wrong", error: error });
@@ -40,8 +40,8 @@ export const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, functio
     console.log("authenticating user...");
     try {
         const [userData] = yield pool.query(`SELECT * FROM ${usersTable} WHERE email=?`, [req.body.email]);
-        console.log('LOGIN REQUEST BODY: ', req.body);
-        console.log('USER FOUND BY EMAIL: ', userData);
+        console.log("LOGIN REQUEST BODY: ", req.body);
+        console.log("USER FOUND BY EMAIL: ", userData);
         const user = userData[0];
         if (!user)
             return res.status(401).json({ message: "Invalid credentials" });
@@ -54,7 +54,7 @@ export const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, functio
                 name: user.name,
                 email: user.email,
                 is_admin: user.is_admin,
-                token: token
+                token: token,
             });
         }
         else {

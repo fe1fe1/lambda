@@ -1,7 +1,8 @@
+import { Request, Response, NextFunction } from "express";
 import { pool } from "../db.js";
 
-export const getAllResources = (table) => {
-    return async (req, res, next) => {
+export const getAllResources = (table: any) => {
+    return async (req: Request, res: Response, next: NextFunction) => {
         console.log("utils");
         try {
             const [result] = await pool.query(`SELECT * FROM ${table}`);
@@ -19,11 +20,11 @@ export const getAllResources = (table) => {
     };
 };
 
-export const getResourceById = (table) => {
-    return async (req, res, next) => {
+export const getResourceById = (table: any) => {
+    return async (req: Request, res: Response, next: NextFunction) => {
         console.log("utils");
         try {
-            const [result] = await pool.query(
+            const [result]: any[] = await pool.query(
                 `SELECT * FROM ${table} WHERE id=?`,
                 [req.params.id]
             );
@@ -46,14 +47,13 @@ export const getResourceById = (table) => {
     };
 };
 
-export const deleteResourceById = (table) => {
-    return async (req, res, next) => {
+export const deleteResourceById = (table: any) => {
+    return async (req: Request, res: Response, next: NextFunction) => {
         console.log("utils");
         try {
-            const [result] = await pool.query(
-                `DELETE FROM ${table} WHERE id=?`,
-                [req.params.id]
-            );
+            const result = await pool.query(`DELETE FROM ${table} WHERE id=?`, [
+                req.params.id,
+            ]);
             if (result.length <= 0) {
                 return res
                     .status(404)

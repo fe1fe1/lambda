@@ -31,7 +31,7 @@ export const getResourceById = (table) => {
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         console.log("utils");
         try {
-            const [result] = yield pool.query(`SELECT * FROM ${table} WHERE id=?`, [req.params.id]);
+            const result = yield pool.query(`SELECT * FROM ${table} WHERE id=?`, [req.params.id]);
             if (result.length <= 0) {
                 return res
                     .status(404)
@@ -55,7 +55,9 @@ export const deleteResourceById = (table) => {
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         console.log("utils");
         try {
-            const [result] = yield pool.query(`DELETE FROM ${table} WHERE id=?`, [req.params.id]);
+            const result = yield pool.query(`DELETE FROM ${table} WHERE id=?`, [
+                req.params.id,
+            ]);
             if (result.length <= 0) {
                 return res
                     .status(404)

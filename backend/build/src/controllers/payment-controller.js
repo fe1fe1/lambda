@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { pool } from "../db.js";
 import Stripe from "stripe";
-const stripe = new Stripe("sk_test_51NOWgjLxeQ3x4qvChsmzEiqvcTqSpyqtenVLJhjpv6zzM1wmU0eobzdd81iqIFkMpcVM3oQC9wzE8u98uMVN1SVW00Fav9Kht6", {});
+const stripe = new Stripe("sk_test_51NOWgjLxeQ3x4qvChsmzEiqvcTqSpyqtenVLJhjpv6zzM1wmU0eobzdd81iqIFkMpcVM3oQC9wzE8u98uMVN1SVW00Fav9Kht6", { apiVersion: "2022-11-15", typescript: true });
 export const postUserPayment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("posting payment...", req.body);
     const orderId = req.params.orderId;

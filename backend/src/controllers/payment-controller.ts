@@ -3,7 +3,7 @@ import { pool } from "../db.js";
 import Stripe from "stripe";
 const stripe = new Stripe(
     "sk_test_51NOWgjLxeQ3x4qvChsmzEiqvcTqSpyqtenVLJhjpv6zzM1wmU0eobzdd81iqIFkMpcVM3oQC9wzE8u98uMVN1SVW00Fav9Kht6",
-    {}
+    { apiVersion: "2022-11-15", typescript: true }
 );
 
 export const postUserPayment = async (req: Request, res: Response) => {

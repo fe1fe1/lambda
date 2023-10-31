@@ -42,7 +42,9 @@ export const postUserShipping = (req, res) => __awaiter(void 0, void 0, void 0, 
     }
     catch (error) {
         console.log(error);
-        return res.status(502).json({ message: "Something went wrong", error: error });
+        return res
+            .status(502)
+            .json({ message: "Something went wrong", error: error });
     }
     try {
         const [result] = yield pool.query(`INSERT INTO shipping (user_id, address, city, postal_code, country) VALUES (?)`, [[userId, ...values]]);
@@ -74,7 +76,7 @@ export const updateUserShipping = (req, res) => __awaiter(void 0, void 0, void 0
         console.log(error);
     }
 });
-export const deleteUserShipping = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+export const deleteUserShipping = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("deleting shipping...");
     try {
         const [result] = yield pool.query(`DELETE * FROM shipping WHERE user_id=?`, [req.params.userId]);
